@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<!--
+Copyright 2020 Ayuntamiento de A Coruña, Ayuntamiento de Madrid, Ayuntamiento de Santiago de Compostela, Ayuntamiento de Zaragoza, Entidad Pública Empresarial Red.es
+
+This visualization is part of the actions carried out within the "Ciudades Abiertas" project.
+
+Licensed under the EUPL, Version 1.2 or – as soon they will be approved by the European Commission - subsequent versions of the EUPL (the "Licence");
+You may not use this work except in compliance with the Licence.
+You may obtain a copy of the Licence at:
+
+https://joinup.ec.europa.eu/software/page/eupl
+
+Unless required by applicable law or agreed to in writing, software distributed under the Licence is distributed on an "AS IS" basis,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the Licence for the specific language governing permissions and limitations under the Licence.
+-->
+<html lang="es" dir="ltr">
+  <head>
+	<!-- Metadatos -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title data-i18n="subvenciones">Subvenciones</title>
+	<!--Favicon-->
+	<link rel="shortcut icon" type="image/x-icon" href="dist/images/favicon.ico" >
+	
+	<!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="vendor/bootstrap/css/bootstrap.min.css">
+	
+	<!-- Custom Fonts -->
+    <link href="vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+	
+	<!-- bootstrap-slider -->
+	<link href="vendor/bootstrap-slider/css/bootstrap-slider.css" rel="stylesheet">
+	
+	<!-- Hojas de estilos internos -->
+	<link rel="stylesheet" href="dist/css/ciudadesAbiertas.css?v=3">
+	<link rel="stylesheet" href="dist/css/subvenciones.css?v=2">
+	
+	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+	<!--[if lt IE 9]>
+			<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+			<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+		<![endif]-->
+	
+  </head>
+  
+  <body>		
+	<div class="modal fade bd-loading-modal-lg" data-backdrop="static" data-keyboard="false" tabindex="-1">
+		<div class="modal-dialog modal-sm">
+			<div class="modal-content" style="width: 48px">
+				<span class="fa fa-spinner fa-spin fa-3x"></span>
+			</div>
+		</div>
+	</div>
+	<!-- Barra de navegación -->
+	<nav class="navbar navbar-default navbar-static-top" style="margin-bottom: 0">
+		<div class="container">
+			<div class="row">
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+						<span class="sr-only">Toggle navigation</span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+				</div>
+				<!-- /.navbar-header -->
+				<div class="collapse navbar-collapse" id="myNavbar" role="tablist" aria-label="Pestañas">
+					<ol class="nav navbar-nav">
+						<li id="liInicio">
+							<button id="buttonInicio" type="button" role="tab" aria-level="1" aria-selected="true" aria-controls="capaInicio" class="btn btn-link btn-lg" data-i18n="inicio" onclick="cambioCapaInicio()">Inicio</button>
+						</li>
+						<li id="liSubvenciones">
+							<button id="buttonSubvenciones" type="button" role="tab" aria-level="1" aria-selected="false" aria-controls="capaSubvenciones" class="btn btn-link btn-lg" data-i18n="subvenciones" onclick="cambioCapaSubvenciones()">Subvenciones</button>
+						</li>
+						<li id="liBeneficiarios">
+							<button id="buttonBeneficiarios" type="button" role="tab" aria-level="1" aria-selected="false" aria-controls="capaBeneficiarios" class="btn btn-link btn-lg" data-i18n="beneficiarios" onclick="cambioCapaBeneficiarios()">Beneficiarios</button>
+						</li>
+						<li id="liGlosario">
+							<button id="buttonGlosario" type="button" role="tab" aria-level="1" aria-selected="false" aria-controls="capaAyuda" class="btn btn-link btn-lg" data-i18n="ayuda" onclick="cambioCapaAyuda()">Ayuda</button>
+						</li>
+					</ol>
+					<ol class="nav navbar-nav navbar-right">
+						<li>
+							<button type="button" id="menuIdioma" class="btn btn-link btn-lg dropdown-toggle" data-toggle="dropdown" data-i18n="idioma">Idioma <span class="caret"></span></button>
+							<ul class="dropdown-menu" role="menu">
+								<li role="presentation">
+									<a role="menuitem" href="#" data-locale="en" data-i18n="ingles" class="switch-locale">Ingles</a>
+								</li>
+								<li role="presentation">
+									<a role="menuitem" href="#" data-locale="es" data-i18n="espanyol" class="switch-locale">Español</a>
+								</li>
+								<li role="presentation">
+									<a role="menuitem" href="#" data-locale="gl" data-i18n="gallego" class="switch-locale">Gallego</a>
+								</li>
+							</ul>
+						</li>
+					</ol>
+				</div>
+				<!-- /.navbar-collapse -->
+			</div>
+		</div>
+	</nav>
+
+	<div class="container">
+		<!-- Página de inicio -->
+		<div id="capaInicio" tabindex="0" role="tabpanel" aria-labelledby="Inicio"> 
+			<div class="row">
+				<section>
+					<div class="col-md-6">
+						<div class="panel panel-default">
+						  <div class="panel-heading" role="heading" aria-level="2" data-i18n="que_es_una_subvencion">¿Qué es una subvención?</div>
+						  <div class="panel-body">
+							<span data-i18n="texto_que_es_una_subvencion"></span> <a onclick="cambioCapaAyudaQueEsSubvencion()" data-i18n="aqui"></a>
+						  </div>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="panel panel-default">
+						  <div class="panel-heading" role="heading" aria-level="2" data-i18n="que_va_a_encontrar_en_este_portal">¿Qué va a encontrar en este portal?</div>
+						  <div class="panel-body" >
+							<span data-i18n="texto_que_va_a_encontrar_en_este_portal"></span> <a onclick="cambioCapaAyudaEncontrarPortal()" data-i18n="aqui"></a>
+						  </div>
+						</div>
+					</div>
+				</section>
+			</div>
+			<!-- /.row -->
+			<div class="row">
+				<div class="col-md-12">
+					<article>
+						<iframe id="iframeIndicadoresGlobales" class="embed-responsive-item" src="indicadores_globales.html?lang=es" title="Bloque para los indicadores globales"></iframe>
+					</article>
+				</div>
+			</div>
+			<!-- /.row -->
+			<div class="row">
+				<div class="col-md-7 col-md-offset-5 col-xs-10 col-xs-offset-2">	
+					<input title="Filtro año" id="filtroAnyoInicio" type="text" data-slider-ticks="[2016,2017,2018]" data-slider-ticks-labels="['2016','2017','2018']" />
+				</div>
+			</div>
+			<!-- /.row -->
+			<div class="row">
+				<div class="col-md-12">
+					<article>
+						<iframe id="iframeIndicadores" class="embed-responsive-item" src="indicadores.html?lang=es&anyo=2018" title="Bloque para los indicadores"></iframe>
+					</article>
+				</div>
+			</div>
+			<!-- /.row -->
+			<div class="row">
+				<div class="col-md-12">
+					<article>
+						<iframe id="iframeImporteTipoBeneficiarios" class="embed-responsive-item" src="importe_tipo_beneficiarios.html?lang=es&anyo=2018" title="Bloque para el gráfico importe por tipo de beneficiario"></iframe>
+					</article>
+				</div>
+			</div>
+			<!-- /.row -->
+			<div class="row">
+				<div class="col-md-12">
+					<article>
+						<iframe id="iframeDepartamentosGastoGlobal"class="embed-responsive-item" src="gasto_area.html?lang=es&anyo=2018" width="100%" title="Bloque para el gráfico Gasto por área"></iframe>
+					</article>
+				</div>
+			</div>
+			<!-- /.row -->
+		</div>
+		<!-- Página de subvenciones -->
+		<div id="capaSubvenciones" tabindex="0" role="tabpanel" aria-labelledby="Subvenciones"> 
+			<div class="row">
+				<div class="col-xs-12">
+					<article>
+						<iframe id="iframeBusquedaSubvenciones" class="embed-responsive-item" src="busqueda_subvenciones.html?lang=es" title="Bloque para la búsqueda de subvenciones"></iframe>
+					</article>
+				</div>
+			</div>
+			<!-- /.row -->
+		</div>
+		<!-- Página de beneficiarios -->
+		<div id="capaBeneficiarios" tabindex="0" role="tabpanel" aria-labelledby="Beneficiarios"> 
+			<div class="row">
+				<div class="col-xs-12">
+					<article>
+						<iframe id="iframeBusquedaBeneficiarios" class="embed-responsive-item" src="busqueda_beneficiarios.html?lang=es" title="Bloque para la búsqueda de subvenciones"></iframe>
+					</article>
+				</div>
+			</div>
+			<!-- /.row -->
+		</div>
+		<!-- Página del glosario de términos -->
+		<div id="capaAyuda" tabindex="0" role="tabpanel" aria-labelledby="Ayuda"> 
+			<div class="row">
+				<div class="col-md-12" id="bloque_ayuda_que_es_subvencion">
+					<div class="panel panel-default">
+					  <div class="panel-heading" role="heading" aria-level="2" data-i18n="que_es_una_subvencion">¿Qué es una subvención?</div>
+					  <!-- /.panel-heading -->
+					  <div class="panel-body" >
+						<p data-i18n="pAyuda1QueEs">Una subvención es una disposición dineraria realizada por el Ayuntamiento (de Zaragoza) o por sus entidades dependientes, a favor de personas públicas o privadas, con o sin personalidad jurídica, que cumpla los siguientes requisitos:</p>
+						<ol>
+							<li data-i18n="liAyuda1QueEs">Que la entrega se realice sin contraprestación directa de las beneficiarias</li>
+							<li data-i18n="liAyuda2QueEs">Que la entrega esté sujeta al cumplimiento de un determinado objetivo, la ejecución de un proyecto o la realización de una actividad, debiendo la beneficiaria cumplir las obligaciones materiales y formales que se hubieran establecido.</li>
+							<li data-i18n="liAyuda3QueEs">Que el proyecto, la acción, conducta o situación financiada tenga por objeto el fomento de una actividad de utilidad pública o interés social o de promoción de una finalidad pública.</li>
+						</ol>
+
+					  </div>
+					  <!-- /.panel-body -->
+					</div>
+				</div>
+				<div class="col-md-12" id="bloque_ayuda_encontrar_portal">
+					<div class="panel panel-default">
+					  <div class="panel-heading" role="heading" aria-level="2" data-i18n="que_va_a_encontrar_en_este_portal">¿>¿Qué va a encontrar en este portal?</div>
+					  <!-- /.panel-heading -->
+					  <div class="panel-body">
+						<p data-i18n="pAyuda1Portal">En este portal va a poder encontrar la relación de todas las subvenciones que el Ayuntamiento (de Zaragoza) y sus entidades dependientes han otorgado en cada uno de los ejercicios presupuestarios elegidos.</p>
+						<p data-i18n="pAyuda2Portal">Subvenciones que pueden ser otorgadas:</p>
+						<ol>
+							<li data-i18n="liAyuda1Portal">Mediante una convocatoria de concurrencia competitiva entre las entidades o personas solicitantes y un proceso de evaluación, comparación y selección de las mismas.</li>
+							<li data-i18n="liAyuda2Portal">A través de la asignación nominativa en el presupuesto anual del Ayuntamiento o sus entidades - subvenciones directas de carácter nominativo.</li>
+							<li data-i18n="liAyuda3Portal">De forma directa, y con carácter excepcional, aquellas otras subvenciones en que se acrediten razones de interés público, social, económico o humanitario, a las personas o entidades que cumplan determinados requisitos.</li>
+						</ol>
+						<p data-i18n="pAyuda3Portal">Además de la relación de subvenciones obtenidas a través de un buscador, el portal le informa de los principales indicadores del ejercicio presupuestario: el nº de subvenciones, el importe total concedido, el nº de entidades o personas beneficarias, la tipología de las mismas, el importe por cada línea estratégica o por cada entidad gestora o financiadora y los 10 primeros beneficiarios por el importe o el número de la ayudas recibidas.</p>
+					  </div>
+					  <!-- /.panel-body -->
+					</div>
+				</div>
+				<div class="col-xs-12">
+					<div class="panel panel-default">
+						<div class="panel-heading" role="heading" aria-level="2" data-i18n="glosario_terminos">
+							Glosario de términos
+						</div>
+						<!-- /.panel-heading -->
+						<div class="panel-body">
+							<section>
+								<ul>
+									<li>
+										<p data-i18n="subvencion">Subvencion</p>
+										<p data-i18n="definicion_subvencion">Una subvencion es la entrega de dinero o bienes y servicios realizada por una administración pública a un particular, persona física o jurídica, sin que exista la obligación de reembolsarlo. Suelen utilizarse en actividades consideradas de interés público, o en circunstancias de interés social.</p>
+									</li>
+									<li>
+										<p data-i18n="beneficiario">Beneficiario</p>
+										<p data-i18n="definicion_beneficiario">...</p>
+									</li>
+								</ul>
+							</section>
+						</div>
+						<!-- /.panel-body -->
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- Página de la ficha -->
+		<div id="capaFicha" aria-labelledby="Ficha">
+			<div class="row">
+				<div class="col-md-12">
+					<article>
+						<iframe id="iframeFicha" class="embed-responsive-item" src="" title="Bloque para la ficha"></iframe>
+					</article>
+				</div>
+			</div> 
+		</div>	
+	</div>
+	<!-- footer  -->
+	<footer class="novedades-footer">
+		<div class="footer__content">
+
+			<div class="footer__logos-container">
+
+				<div class="footer__logos-box">
+					<ul class="footer__logos-top">
+						<li class="footer__logos footer__logoGobEspaña">
+							<a href="http://www.mineco.gob.es/portal/site/mineco/" target="_blank">
+								<img title="Logo Gobierno de España. Abre una ventana nueva" src="dist//images//gobEspana-logo.png" alt="Logo gobierno de España y Red.es. Abre una ventana nueva">
+							</a>
+						</li>
+						<li class="footer__logos footer__logoRed">
+							<a href="https://www.red.es/redes/" target="_blank">
+								<img title="Logo Red.es. Abre una ventana nueva" src="dist//images//red-logo.svg" alt="Logo gobierno de España y Red.es. Abre una ventana nueva">
+							</a>
+						</li>
+						<li class="footer__logos footer__logoCiudadesInteligentes">
+							<a href="http://www.red.es/redes/es/que-hacemos/ciudades-inteligentes" target="_blank">
+								<img title="Logo del portal Ciudades e Islas Inteligentes. Abre una ventana nueva" src="dist//images//ciudadesInteligentes-logo.svg" alt="Logo del portal Ciudades e Islas Inteligentes. Abre una ventana nueva">
+							</a>
+						</li>
+						<li class="footer__logos footer__logoUnionEuropea">
+							<a href="http://ec.europa.eu/regional_policy/es/funding/erdf/" target="_blank">
+								<img title="Logo de la Unión Europea. Abre una ventana nueva" src="dist//images//unionEuropea-logo.svg" alt="Logo de la Unión Europea. Abre una ventana nueva">
+							</a>
+						</li>
+					</ul>
+					<ul class="footer__logos-bottom">
+						<li class="footer__logos footer__logoAcoruña">
+							<a href="https://www.coruna.gal" target="_blank">
+								<img title="Logo del Ayuntamiento de A Coruña. Abre una ventana nueva" src="dist//images//ayuntAcoruna-logo.svg" alt="Logo del Ayuntamiento de A coruña. Abre una ventana nueva">
+							</a>
+						</li>
+						<li class="footer__logos footer__logoMadrid">
+							<a href="https://www.madrid.es/" target="_blank">
+								<img title="Logo del Ayuntamiento de Madrid. Abre una ventana nueva" src="dist//images//ayuntMadrid-logo.svg" alt="Logo del Ayuntamiento de Madrid. Abre una ventana nueva">
+							</a>
+						</li>
+						<li class="footer__logos footer__logoSantiago">
+							<a href="http://santiagodecompostela.gal/" target="_blank">
+								<img title="Logo del Ayuntamiento de Santiago de Compostela. Abre una ventana nueva" src="dist//images//ayuntSantiagoCompostela-logo.svg" alt="Logo del Ayuntamiento de Santiago de Compostela. Abre una ventana nueva">
+							</a>
+						</li>
+						<li class="footer__logos footer__logoZaragoza">
+							<a href="https://www.zaragoza.es/sedeelectronica/" target="_blank">
+								<img title="Logo del Ayuntamiento de Zaragoza. Abre una ventana nueva" src="dist//images//ayuntZaragoza-logo.svg" alt="Logo del Ayuntamiento de Zaragoza. Abre una ventana nueva">
+							</a>
+						</li>
+					</ul>
+				</div>
+
+
+			</div>
+
+		</div>
+	</footer>
+  </body>
+  
+  <!-- Scripts JavaScript -->
+  
+  <!-- jQuery -->
+  <script src="vendor/jquery/jquery.min.js"></script>
+  
+  <!-- Bootstrap Core -->
+  <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+  
+  <!-- bootstrap-slider -->
+  <script src="vendor/bootstrap-slider/bootstrap-slider.js"></script>
+  
+  <!-- Normalización de datos -->
+  <script src="vendor/numeral/numeral.min.js"></script>
+  
+  <!-- Multiidoma -->	
+  <script src="vendor/CLDRPluralRuleParser/CLDRPluralRuleParser.js"></script>
+  <script src="vendor/jquery.i18n/jquery.i18n.js"></script>
+  <script src="vendor/jquery.i18n/jquery.i18n.messagestore.js"></script>
+  <script src="vendor/jquery.i18n/jquery.i18n.fallbacks.js"></script>
+  <script src="vendor/jquery.i18n/jquery.i18n.language.js"></script>
+  <script src="vendor/jquery.i18n/jquery.i18n.parser.js"></script>
+  <script src="vendor/jquery.i18n/jquery.i18n.emitter.js"></script>
+  <script src="vendor/jquery.i18n/jquery.i18n.emitter.bidi.js"></script>
+  
+  <!-- Scripts internos -->
+  <script src="dist/js/constantes.js"></script>
+  <script src="dist/js/general.js"></script>
+  
+  <script>
+	var taskMaster = {
+		iframeIndicadores:false, 
+		iframeDepartamentosGastoGlobal:false, 
+		// iframeImporteMeses:false, 
+		iframeBusquedaSubvenciones:false, 
+		iframeBusquedaBeneficiarios:false,
+		iframeImporteTipoBeneficiarios:false
+	};
+	
+	var heightImporteMeses=394;
+	var heightTipoBeneficiario=360;	
+	var heightIndicadoresGlobal=360;
+	var heightTop50GastoBeneficiario = 431;
+	
+	$(document).ready(function() {		
+		$('.modal').modal('show');
+		inicializaDatosInicio();
+		initComun();
+		cambioCapaInicio();
+
+		var historicoInicial=0;
+		var contadorHistorico=0;
+		history.pushState(null, null, location.href); 
+		history.back(); 
+		history.forward(); 
+		window.onpopstate = function () 
+		{ 
+			history.go(1); 									
+			contadorHistorico++;											
+			if ((contadorHistorico>1)&&(historicoInicial>2))
+			{
+				
+				if (contadorHistorico>1)
+				{
+					console.log("Está inhabilitado el botón retroceso");
+				}
+				contadorHistorico=0;										
+			}
+			historicoInicial++;									
+		}; 
+
+	} );	
+	
+  </script>
+  
+</html>

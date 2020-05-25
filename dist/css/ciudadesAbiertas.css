@@ -1,0 +1,405 @@
+/*
+Copyright 2020 Ayuntamiento de A Coruña, Ayuntamiento de Madrid, Ayuntamiento de Santiago de Compostela, Ayuntamiento de Zaragoza, Entidad Pública Empresarial Red.es
+
+This visualization is part of the actions carried out within the "Ciudades Abiertas" project.
+
+Licensed under the EUPL, Version 1.2 or – as soon they will be approved by the European Commission - subsequent versions of the EUPL (the "Licence");
+You may not use this work except in compliance with the Licence.
+You may obtain a copy of the Licence at:
+
+https://joinup.ec.europa.eu/software/page/eupl
+
+Unless required by applicable law or agreed to in writing, software distributed under the Licence is distributed on an "AS IS" basis,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the Licence for the specific language governing permissions and limitations under the Licence.
+*/
+
+/* Etiquetas genéricas HTML*/
+body {
+	font-family: "Montserrat","Source Sans Pro","Helvetica","Arial","sans-serif";
+	background-color: #FFFFFF;
+	color: #0A2240;
+}
+
+h1, h2, h3, h4, button {
+	color: #0A2240;
+}
+
+header {
+	text-align: center;
+}
+
+iframe {
+	border-style: none;
+	width: 100%;
+}
+
+legend {
+  font-size: 14px;
+  font-weight: 700;
+  border-bottom: 0px
+}
+
+tr:focus
+{
+    background:yellow;
+}​
+
+@media screen and (min-width: 1400px) {
+  .container {
+    width: 1370px;
+  }
+}
+
+@media screen and (min-width: 1600px) {
+  .container {
+    width: 1570px;
+  }
+}
+@media screen and (min-width: 1900px) {
+  .container {
+    width: 1870px;
+  }
+}
+
+.panel-heading {
+	font-size: 16px;
+}
+
+.panel-default > .panel-heading {
+    color: #0A2240;
+    background-color: #E9EBEE;
+    border-color: #E9EBEE;
+}
+
+.panel-default > .panel-heading > h2 {
+	color: #0A2240;
+}
+
+.panel-primary > .panel-heading {
+	color: #fff;
+	background-color: #006AA0;
+	border-color: #006AA0;
+}
+
+.fontMediumSize {
+    font-size: 16px;
+}
+
+.fontHugeSize {
+    font-size: 24px;
+}
+
+.textoNegrita{
+	font-weight:bold;
+}
+
+.colorBlanco {
+	color: white;
+}
+
+.navbar {
+    background-color: #FFFFFF;
+}
+
+.capaLogos {
+ padding:4.286rem 1.786rem 1.786rem 1.786rem;
+ background-color:#FAFAFA;
+ font-size:0.8rem; 
+ width:100%;
+ bottom:0
+}
+.capaLogos__content {
+ max-width:1280px;
+ margin:auto
+}
+.capaLogos__logos-box {
+ margin-bottom:0;
+ text-align:center
+}
+.capaLogos__logos {
+ display:inline-block;
+ margin-left:44px
+}
+.capaLogos__logos:first-child {
+ margin:0
+}
+.capaLogos__logos-bottom {
+ margin-top:35px
+}
+.capaLogos__logoGobEspaña {
+ width:204px
+}
+.capaLogos__logoRed {
+ width:70px;
+ margin-left:10px;
+ line-height:50px;
+ vertical-align:text-bottom
+}
+.capaLogos__logoAcoruña {
+ width:263px
+}
+.capaLogos__logoMadrid {
+ width:147px
+}
+.capaLogos__logoSantiago {
+ width:312px
+}
+.capaLogos__logoZaragoza {
+ width:264px
+}
+.capaLogos__logoCiudadesInteligentes {
+ width:141px
+}
+.capaLogos__logoUnionEuropea {
+ width:355px;
+ margin-left:88px
+}
+.capaLogos__logoCiudadesAbiertas {
+ width:156px
+}
+.capaLogos__bottom {
+ margin-top:3.571rem;
+ position:relative
+}
+.capaLogos__navbar {
+ position:absolute;
+ right:0;
+ bottom:0;
+ color:#5F6F82;
+ font-size:14px
+}
+.capaLogos__navbar__items {
+ list-style:none;
+ display:inline-block
+}
+.capaLogos__navbar__items a {
+ color:#5F6F82;
+ vertical-align:middle
+}
+.capaLogos__navbar__items::after {
+ content:' ';
+ margin:0 10px;
+ display:inline-block;
+ vertical-align:middle;
+ width:2px;
+ height:14px;
+ background-color:#5F6F82
+}
+.capaLogos__navbar__items:last-child::after {
+ content:none
+}
+
+.panel-green {
+  border-color: #C64200;
+}
+
+.panel-green > .panel-heading {
+  border-color: #C64200;
+  color: white;
+  background-color: #C64200;
+}
+
+.panel-green > a {
+  color: #C64200;
+}
+
+.panel-green > a:hover {
+  color: #C64200;
+}
+
+.fondoFormulario {
+  background-color: #f9f9f9;
+}
+
+.novedades-footer {
+  display: block;
+  padding: 4.286rem 1.786rem 1.786rem 1.786rem;
+  /* background-color: #FAF8F5; */
+  background-color: #FAFAFA;
+  font-size: 0.8rem;
+  width: 100%;
+  bottom: 0;
+}
+
+.footer {
+  padding: 4.286rem 1.786rem 1.786rem 1.786rem;
+  /* background-color: #FAF8F5; */
+  background-color: #FAFAFA;
+  font-size: 0.8rem;
+  position: absolute;
+  width: 100%;
+  bottom: 0
+}
+
+.footer__content {
+  max-width: 1280px;
+  margin: auto
+}
+
+.footer__logos-box {
+  margin-bottom: 0;
+  text-align: center
+}
+
+.footer__logos {
+  display: inline-block;
+  margin-left: 44px
+}
+
+.footer__logos:first-child {
+  margin: 0
+}
+
+.footer__logos-bottom {
+  margin-top: 35px
+}
+
+.footer__logoGobEspaña {
+  width: 260px
+}
+
+.footer__logoGobEspaña img {
+  max-height: 63px;
+}
+
+.footer__logoRed {
+  width: 143px;
+  margin-left: 15px;
+  line-height: 32px;
+  vertical-align: text-bottom
+}
+
+.footer__logoAcoruña {
+  width: 263px
+}
+
+.footer__logoMadrid {
+  width: 147px
+}
+
+.footer__logoSantiago {
+  width: 312px
+}
+
+.footer__logoZaragoza {
+  width: 264px
+}
+
+.footer__logoCiudadesInteligentes {
+  width: 141px
+}
+
+.footer__logoUnionEuropea {
+  width: 355px;
+  margin-left: 88px
+}
+
+.footer__logoCiudadesAbiertas {
+  width: 156px
+}
+
+.footer__bottom {
+  margin-top: 3.571rem;
+  position: relative
+}
+
+.footer__navbar {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  color: #5F6F82;
+  font-size: 14px
+}
+
+.footer__navbar__items {
+  list-style: none;
+  display: inline-block
+}
+
+.footer__navbar__items a {
+  color: #5F6F82;
+  vertical-align: middle
+}
+
+.footer__navbar__items::after {
+  content: ' ';
+  margin: 0 10px;
+  display: inline-block;
+  vertical-align: middle;
+  width: 2px;
+  height: 14px;
+  background-color: #5F6F82
+}
+
+.footer__navbar__items:last-child::after {
+  content: none
+}
+
+@media (max-width: 1177px) {
+  .footer__logos {
+      margin-left: 35px
+  }
+  .footer__logoGobEspaña {
+      width: 168px
+  }
+  .footer__logoRed {
+      width: 57px;
+      margin-left: 10px;
+      line-height: 45px;
+      vertical-align: text-bottom
+  }
+  .footer__logoAcoruña {
+      width: 215px
+  }
+  .footer__logoMadrid {
+      width: 120px
+  }
+  .footer__logoSantiago {
+      width: 255px
+  }
+  .footer__logoZaragoza {
+      width: 216px
+  }
+  .footer__logoCiudadesInteligentes {
+      width: 115px
+  }
+  .footer__logoUnionEuropea {
+      width: 290px;
+      margin-left: 70px
+  }
+}
+
+@media (max-width: 992px) {
+  .footer__logos {
+      margin-left: 24px
+  }
+  .footer__logoGobEspaña {
+      width: 128px
+  }
+  .footer__logoRed {
+      width: 45px;
+      margin-left: 5px;
+      line-height: 35px;
+      vertical-align: text-bottom
+  }
+  .footer__logoAcoruña {
+      width: 151px
+  }
+  .footer__logoMadrid {
+      width: 85px
+  }
+  .footer__logoSantiago {
+      width: 180px
+  }
+  .footer__logoZaragoza {
+      width: 152px
+  }
+  .footer__logoCiudadesInteligentes {
+      width: 80px
+  }
+  .footer__logoUnionEuropea {
+      width: 225px;
+      margin-left: 48px
+  }
+}
