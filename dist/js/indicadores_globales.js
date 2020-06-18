@@ -21,10 +21,14 @@ var anyo=undefined;
 
 var subvencionCadena=$.i18n( 'subvencion' );
 var noSubvencionCadena=$.i18n( 'no_subvenciones' );
-var anyoCadena=$.i18n( 'anyo' );
+var noSubvencionCadena2=$.i18n( 'no_subvenciones2' );
+var anyoCadena=$.i18n( 'anyos' );
+var anyoCadena2=$.i18n( 'anyos2' );
 var beneficiarioCadena=$.i18n( 'beneficiario' );
 var noBeneficiarioCadena=$.i18n( 'no_beneficiarios' );
+var noBeneficiarioCadena2=$.i18n( 'no_beneficiarios2' );
 var importeCadena=$.i18n( 'importe' );
+var importeCadena2=$.i18n( 'importe2' );
 
 /*
 	Función de inicialización del script
@@ -73,9 +77,14 @@ function inicializaMultidiomaIndicadoresGlobales()
 		{
 			$('html').i18n();
 			noSubvencionCadena=$.i18n( 'no_subvenciones' );
-			anyoCadena=$.i18n( 'anyo' );
+			noSubvencionCadena2=$.i18n( 'no_subvenciones2' );
+			anyoCadena=$.i18n( 'anyos' );
+			anyoCadena2=$.i18n( 'anyos2' );
 			noBeneficiarioCadena=$.i18n( 'no_beneficiarios' );
+			noBeneficiarioCadena2=$.i18n( 'no_beneficiarios2' );
 			importeCadena=$.i18n( 'importe' );
+			importeCadena2=$.i18n( 'importe2' );
+
 			inicializaDatosIndicadoresGlobales();
 			insertaURLSAPI();
 		});
@@ -188,13 +197,12 @@ function insertaURLSAPI()
 	{
 		console.log("insertaURLSAPI");
 	}
-	$('#urlAPIImpTipBen').attr("href", queryGraficoImporteTipoBeneficiarios);
-	$('#descargaImpTipBenCSV').attr("href", queryGraficoImporteTipoBeneficiariosCSV);
-	$('#descargaImpTipBenJSON').attr("href", queryGraficoImporteTipoBeneficiarios);
+	$('#urlAPIIndSubGlobal').attr("href", queryIndicadorSubvencionesGlobal);
+	$('#urlAPIIndBenGlobal').attr("href", queryIndicadorBeneficiariosGlobal);
+	$('#urlAPIIndImpTotGlobal').attr("href", queryIndicadorImporteTotalGlobal);
 	$('#urlAPIDoc').attr("href", docAPI);
 	$('#urlMax').attr("href", window.location.href);
 	$('#urlMax').attr("target", '_blank');
-	
 }
 
 /*
@@ -217,15 +225,15 @@ function pintaIndicadoresGlobales(indicadoresGlobales)
 	var categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
 	categoryAxis.dataFields.category = "anyo";
 	categoryAxis.renderer.opposite = true;
-	categoryAxis.title.text = anyoCadena;
+	categoryAxis.title.text = anyoCadena2;
 	
 	// Create series
 	var valueAxis1 = chart.yAxes.push(new am4charts.ValueAxis());
-	valueAxis1.title.text = noSubvencionCadena;
+	valueAxis1.title.text = noSubvencionCadena2;
 	var series1 = chart.series.push(new am4charts.LineSeries());
 	series1.dataFields.valueY = "subvencion";
 	series1.dataFields.categoryX = "anyo";
-	series1.name = noSubvencionCadena;
+	series1.name = noSubvencionCadena2;
 	series1.yAxis = valueAxis1;
 	series1.strokeWidth = 3;
 	series1.bullets.push(new am4charts.CircleBullet());
@@ -236,8 +244,8 @@ function pintaIndicadoresGlobales(indicadoresGlobales)
 	var series2 = chart.series.push(new am4charts.LineSeries());
 	series2.dataFields.valueY = "beneficiario";
 	series2.dataFields.categoryX = "anyo";
-	series2.name = noBeneficiarioCadena;
-	valueAxis2.title.text = noBeneficiarioCadena;
+	series2.name = noBeneficiarioCadena2;
+	valueAxis2.title.text = noBeneficiarioCadena2;
 	series2.yAxis = valueAxis2;
 	series2.strokeWidth = 3;
 	series2.bullets.push(new am4charts.CircleBullet());
@@ -248,8 +256,8 @@ function pintaIndicadoresGlobales(indicadoresGlobales)
 	var series3 = chart.series.push(new am4charts.LineSeries());
 	series3.dataFields.valueY = "importe";
 	series3.dataFields.categoryX = "anyo";	
-	series3.name = importeCadena;
-	valueAxis3.title.text = importeCadena;
+	series3.name = importeCadena2;
+	valueAxis3.title.text = importeCadena2;
 	series3.yAxis = valueAxis3;
 	series3.strokeWidth = 3;
 	series3.bullets.push(new am4charts.CircleBullet());
@@ -293,7 +301,7 @@ function pintaIndicadoresGlobales2(indicadoresGlobales)
 	// Create axes
 	var categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
 	categoryAxis.renderer.minGridDistance = 50;
-	categoryAxis.title.text = anyoCadena;
+	categoryAxis.title.text = anyoCadena2;
 
 	function createAxisAndSeries(field, name, opposite, bullet) {
 		var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
@@ -355,9 +363,9 @@ function pintaIndicadoresGlobales2(indicadoresGlobales)
 		valueAxis.renderer.grid.template.disabled = true;
 	}
 	
-	createAxisAndSeries("subvencion", noSubvencionCadena, false, "circle");
-	createAxisAndSeries("beneficiario", noBeneficiarioCadena, true, "triangle");
-	createAxisAndSeries("importe", importeCadena, true, "rectangle");
+	createAxisAndSeries("subvencion", noSubvencionCadena2, false, "circle");
+	createAxisAndSeries("beneficiario", noBeneficiarioCadena2, true, "triangle");
+	createAxisAndSeries("importe", importeCadena2, true, "rectangle");
 	
 	// Add legend
 	chart.legend = new am4charts.Legend();

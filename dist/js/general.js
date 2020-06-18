@@ -206,6 +206,7 @@ function multidiomaComun()
 				};
 				
 				checkTaskMaster();
+				cambioCapaInicio();
 			}  
 		}); 
 	});
@@ -222,8 +223,10 @@ function inicializaDatosInicio()
 	if(logDebugComun){
 		console.log("inicializaDatosInicio");
 	}
-	
-	generarToken();
+	if(seguridad)
+	{
+		generarToken();
+	}
 
 	$.ajaxSetup({
 		beforeSend: function (xhr)
