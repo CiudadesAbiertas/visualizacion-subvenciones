@@ -51,6 +51,10 @@ var queryIniLineaFinanciacion = subvencionURLdistinct + "?"+paramFieldAPI+"=line
 var queryIniEntidadFinanciadoraTitle = subvencionURLdistinct + "?"+paramFieldAPI+"=entidadFinanciadoraTitle&"+paramPageAPI+"=1&"+paramPageSizeAPI+"=100";
 // URL que obtiene los tipos de instrumento
 var queryIniTipoInstrumento = subvencionURLdistinct + "?"+paramFieldAPI+"=tipoInstrumento&"+paramPageAPI+"=1&"+paramPageSizeAPI+"=100";
+// URL que obtiene los tipos de instrumento
+var queryIniTipoProcedimiento = subvencionURLdistinct + "?"+paramFieldAPI+"=tipoProcedimiento&"+paramPageAPI+"=1&"+paramPageSizeAPI+"=100";
+// URL que obtiene los nominativa
+var queryIniNominativa = subvencionURLdistinct + "?"+paramFieldAPI+"=nominativa&"+paramPageAPI+"=1&"+paramPageSizeAPI+"=100";
 
 // URL que obtiene una lista agrupada por lineas de financiación contando las subvenciones
 var queryIniGraficoSubvencionesLineaFinanciacion = subvencionAgrupadaURL + "?"+paramFieldsAPI+"=lineaFinanciacion,count(title)&"+paramGroupAPI+"=lineaFinanciacion&"+paramSortAPI+"=-count(title)&"+paramPageSizeAPI+"=50";
@@ -826,6 +830,62 @@ function dameLetraTipoEntidad(tipo)
 		default:
 			return ""
 	}
+}
+
+
+/*
+Función que devuelve el tipo de procedimiento
+*/
+function dametipoProcedimiento(tipo)
+{
+
+	if(logDebugComun)
+	{
+		console.log("dametipoProcedimiento");
+	}
+	
+	switch(tipo) 
+	{
+		case 'subvencion-directa':
+			return "Subvención directa"
+			break;
+		case 'subvencion-nominativa':
+			return "Subvención nominativa"
+			break;
+		case 'concesion-directa':
+			return "Concesión directa"
+			break;
+		case 'concurrencia-individualizada':
+			return "Concurrencia individualizada"
+			break;
+		case 'concurrencia':
+			return "Concurrencia"
+			break;	
+	}
+
+}
+
+/*
+Función que devuelve Sí o No
+*/
+function dameSiNo(boolean)
+{
+
+	if(logDebugComun)
+	{
+		console.log("dameSiNo");
+	}
+	
+	switch(boolean) 
+	{
+		case 'true':
+			return "Sí"
+			break;
+		case 'false':
+			return "No"
+			break;
+	}
+
 }
 
 /*

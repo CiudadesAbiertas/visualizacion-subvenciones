@@ -145,6 +145,8 @@ function obtieneDatosFicha( nombre, areaNombre )
 		$('#datos_ficha_subvenciones').append('<p><b>'+$.i18n( 'tipo_instrumento' )+':</b> '+data.records[0].tipoInstrumento+'</p>');
 		$('#datos_ficha_subvenciones').append('<p><b>'+$.i18n( 'aplicacion_presupuestaria' )+': </b> '+data.records[0].aplicacionPresupuestaria+'</p>');
 		$('#datos_ficha_subvenciones').append('<p><b>'+$.i18n( 'base_reguladora' )+': </b> <a id="urlBaseReguladora" text-overflow: "" href='+data.records[0].basesReguladoras+' target="_blank">'+$.i18n( 'pulse_aqui' )+'</a></p>');
+		$('#datos_ficha_subvenciones').append('<p><b>'+$.i18n( 'tipo_procedimiento' )+':</b> '+dametipoProcedimiento(data.records[0].tipoProcedimiento)+'</p>');
+		$('#datos_ficha_subvenciones').append('<p><b>'+$.i18n( 'nominativa' )+':</b> '+dameSiNo(data.records[0].nominativa.toString())+'</p>');
 		pintaGraficoDistribuciónBeneficiarios(data.records);
 	}
 	).fail(function( jqxhr, textStatus, error ) 

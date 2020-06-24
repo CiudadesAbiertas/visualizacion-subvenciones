@@ -48,7 +48,7 @@ function inicializaTablaBusquedaSubvenciones()
 	preparaTablaSubvenciones(false);			
 	$("#lineaGraficosBusquedaSub").hide();
 	$(".table-responsive").hide();
-	$("#iframeBusquedaSubvenciones", window.parent.document).height(580);
+	$("#iframeBusquedaSubvenciones", window.parent.document).height(884);
 	$( "#buscarListado" ).click(function() 
 	{
 		buscar()
@@ -299,6 +299,63 @@ function inicializaDatos()
 			{
 				$('#selectTipoInstrumento').append("<option value='"+tipoInstrumento[i]+"'>"+tipoInstrumento[i]+"</option>");				
 			}
+		}
+	
+	}
+	);
+
+	tipoProcedimiento=new Array();
+	var jqxhr = $.getJSON(dameURL(queryIniTipoProcedimiento)).done(function( data ) 
+	{
+		if ((data!=null)&&(data.records!=null)&&(data.records.length>0))
+		{
+			for (var i = 0; i < data.records.length; i++) 
+			{
+				tipoProcedimiento.push(data.records[i]);
+			}
+		}
+	}
+	).fail(function( jqxhr, textStatus, error ) 
+	{
+		var err = textStatus + ", " + error;
+		console.log( "Request Failed: " + err );
+	}
+	).always(function() 
+	{
+		$('#selectTipoProcedimiento').empty().append("<option value=''></option>").attr("selected","selected");				
+		for (var i=0;i<tipoProcedimiento.length;i++)
+		{
+			if (tipoProcedimiento[i].trim()!="")
+			{
+				$('#selectTipoProcedimiento').append("<option value='"+tipoProcedimiento[i]+"'>"+dametipoProcedimiento(tipoProcedimiento[i])+"</option>");				
+			}
+		}
+	
+	}
+	);
+
+	nominativa=new Array();
+	var jqxhr = $.getJSON(dameURL(queryIniNominativa)).done(function( data ) 
+	{
+		if ((data!=null)&&(data.records!=null)&&(data.records.length>0))
+		{
+			for (var i = 0; i < data.records.length; i++) 
+			{
+				nominativa.push(data.records[i]);
+			}
+		}
+	}
+	).fail(function( jqxhr, textStatus, error ) 
+	{
+		var err = textStatus + ", " + error;
+		console.log( "Request Failed: " + err );
+	}
+	).always(function() 
+	{
+		$('#selectNominativa').empty().append("<option value=''></option>").attr("selected","selected");				
+		for (var i=0;i<nominativa.length;i++)
+		{
+			$('#selectNominativa').append("<option value='"+nominativa[i]+"'>"+dameSiNo(nominativa[i].toString())+"</option>");				
 		}
 	
 	}
@@ -845,6 +902,12 @@ function buscar()
 	{
 		paramAplicacionPresupuestaria="aplicacionPresupuestaria=='"+aplicacionPresupuestaria+"'";
 	}
+
+	var tipoProcedimiento=$("#selectTipoProcedimiento").val();	
+	var paramTipoProcedimiento="tipoProcedimiento=='"+tipoProcedimiento+"'";
+
+	var nominativa=$("#selectNominativa").val();	
+	var paramNominativa="nominativa="+nominativa+"";
 	
 	var busquedas=0;
 	var URLParam=""
@@ -924,6 +987,35 @@ function buscar()
 		textoBusqueda=textoBusqueda+'<span class="textoNegrita">'+$.i18n( 'aplicacion_presupuestaria:' )+'</span>'+" "+aplicacionPresupuestaria;
 		busquedaTodo=false;
 	}
+	if (tipoProcedimiento!='')	
+	{
+		if(URLParam!="")
+		{
+			URLParam=URLParam+" and ";
+		}
+		URLParam=URLParam+paramTipoProcedimiento;
+		if(textoBusqueda!="")
+		{
+			textoBusqueda=textoBusqueda+" | ";
+		}
+		textoBusqueda=textoBusqueda+'<span class="textoNegrita">'+$.i18n( 'tipo_procedimiento:' )+'</span>'+" "+tipoProcedimiento;
+		busquedaTodo=false;
+	}
+	if (nominativa!='')	
+	{
+		if(URLParam!="")
+		{
+			URLParam=URLParam+" and ";
+		}
+		URLParam=URLParam+paramNominativa;
+		if(textoBusqueda!="")
+		{
+			textoBusqueda=textoBusqueda+" | ";
+		}
+		textoBusqueda=textoBusqueda+'<span class="textoNegrita">'+$.i18n( 'nominativa:' )+'</span>'+" "+nominativa;
+		busquedaTodo=false;
+	}
+
 	
 	if(busquedaTodo)
 	{
@@ -1313,6 +1405,8 @@ function limpiarFormularioSub()
 	$("#selectLineaFinanciacion").val("");
 	$("#selectTipoInstrumento").val("");
 	$("#buscadorAplicacionPresupuestaria").val("");
+	$("#selectTipoProcedimiento").val("");
+	$("#selectNominativa").val("");
 
 	$("#lineaGraficosBusquedaSub").hide();
 	$(".table-responsive").hide();

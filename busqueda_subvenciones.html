@@ -77,7 +77,7 @@ See the Licence for the specific language governing permissions and limitations 
 						<div class="panel-body">
 							<!-- <div class="chartwrapper"> -->
 								<div id="chartSuperiorIzquierda" class="chartdivArea"></div>
-								<button id="mostarDatos" type="button" class="btn btn-link" onclick="mostrarDatos('datos_subSupIzq')">Mostar/Ocultar datos</button>
+								<button id="mostarDatos" type="button" class="btn btn-link" onclick="mostrarDatos('datos_subSupIzq')" data-i18n="mostar_ocultar_datos">Mostar/Ocultar datos</button>
 								<div id="datos_subSupIzq" style="display:none;width:100%"></div>
 							<!-- </div> -->
 						</div>
@@ -95,7 +95,7 @@ See the Licence for the specific language governing permissions and limitations 
 						<div class="panel-body">
 							<!-- <div class="chartwrapper"> -->
 								<div id="chartSuperiorDerecha" class="chartdivArea"></div>
-								<button id="mostarDatos" type="button" class="btn btn-link" onclick="mostrarDatos('datos_subSupDer')">Mostar/Ocultar datos</button>
+								<button id="mostarDatos" type="button" class="btn btn-link" onclick="mostrarDatos('datos_subSupDer')" data-i18n="mostar_ocultar_datos">Mostar/Ocultar datos</button>
 								<div id="datos_subSupDer" style="display:none;width:100%"></div>
 							<!-- </div>                             -->
 						</div>    
@@ -131,27 +131,39 @@ See the Licence for the specific language governing permissions and limitations 
 											</div>
 										</div>
 										<div class="row lineForm">
-											<label for="selectNombreArea" class="col-sm-2 col-form-label" data-i18n="entidad_financiadora:">Entidad financiadora:</label>
+											<label for="selectEntidadFinanciadora" class="col-sm-2 col-form-label" data-i18n="entidad_financiadora:">Entidad financiadora:</label>
 											<div class="col-sm-10">
 												<select class="form-control" id="selectEntidadFinanciadora"></select>
 											</div>
 										</div>
 										<div class="row lineForm">
-											<label for="selectNombreArea" class="col-sm-2 col-form-label" data-i18n="linea_financiacion:">Linea financiación:</label>
+											<label for="selectLineaFinanciacion" class="col-sm-2 col-form-label" data-i18n="linea_financiacion:">Linea financiación:</label>
 											<div class="col-sm-10">
 												<select class="form-control" id="selectLineaFinanciacion"></select>
 											</div>
 										</div>
 										<div class="row lineForm">
-											<label for="selectNombreArea" class="col-sm-2 col-form-label" data-i18n="tipo_instrumento:">Tipo instrumento:</label>
+											<label for="selectTipoInstrumento" class="col-sm-2 col-form-label" data-i18n="tipo_instrumento:">Tipo instrumento:</label>
 											<div class="col-sm-10">
 												<select class="form-control" id="selectTipoInstrumento"></select>
 											</div>
 										</div>
 										<div class="row lineForm">
-											<label for="buscadorNombre" class="col-sm-2 col-form-label" data-i18n="aplicacion_presupuestaria:">Aplicación presupuestaria:</label>
+											<label for="buscadorAplicacionPresupuestaria" class="col-sm-2 col-form-label" data-i18n="aplicacion_presupuestaria:">Aplicación presupuestaria:</label>
 											<div class="col-sm-10">
 												<input class="form-control" id="buscadorAplicacionPresupuestaria" placeholder="Cumplimente la aplicación presupuestaria">
+											</div>						
+										</div>
+										<div class="row lineForm">
+											<label for="selectTipoProcedimiento" class="col-sm-2 col-form-label" data-i18n="tipo_procedimiento:">Tipo de procedimiento:</label>
+											<div class="col-sm-10">
+												<select class="form-control" id="selectTipoProcedimiento"></select>
+											</div>						
+										</div>
+										<div class="row lineForm">
+											<label for="selectNominativa" class="col-sm-2 col-form-label" data-i18n="nominativa:">Nominativa:</label>
+											<div class="col-sm-10">
+												<select class="form-control" id="selectNominativa"></select>
 											</div>						
 										</div>
 										<!-- /.row -->
@@ -209,7 +221,7 @@ See the Licence for the specific language governing permissions and limitations 
 											<!-- /.panel-heading -->
 											<div class="panel-body">
 												<div id="graficoInferiorIzquierda" class="chartdivArea"></div>
-												<button id="mostarDatos" type="button" class="btn btn-link" onclick="mostrarDatos('datos_subInfIzq')">Mostar/Ocultar datos</button>
+												<button id="mostarDatos" type="button" class="btn btn-link" onclick="mostrarDatos('datos_subInfIzq')" data-i18n="mostar_ocultar_datos">Mostar/Ocultar datos</button>
 												<div id="datos_subInfIzq" style="display:none;width:100%"></div>
 											</div>
 											<!-- /.panel-body -->
@@ -225,7 +237,7 @@ See the Licence for the specific language governing permissions and limitations 
 											<div class="panel-body">
 												<!-- <div class="chartwrapperInferior"> -->
 													<div id="graficoInferiorDerecha" class="chartdivArea"></div>
-													<button id="mostarDatos" type="button" class="btn btn-link" onclick="mostrarDatos('datos_subInfDer')">Mostar/Ocultar datos</button>
+													<button id="mostarDatos" type="button" class="btn btn-link" onclick="mostrarDatos('datos_subInfDer')" data-i18n="mostar_ocultar_datos">Mostar/Ocultar datos</button>
 													<div id="datos_subInfDer" style="display:none;width:100%"></div>
 												<!-- </div>                             -->
 											</div>        
