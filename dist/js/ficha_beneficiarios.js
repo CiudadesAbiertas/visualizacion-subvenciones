@@ -17,6 +17,7 @@ See the Licence for the specific language governing permissions and limitations 
 /*
 Algunas variables que se usan en este javascript se inicializan en ciudadesAbiertas.js
 */
+var paramId = undefined;
 var paramAdjudicatarioTitle = undefined;
 var paramAdjudicatarioId = undefined;
 
@@ -80,7 +81,7 @@ function inicializaDatosFichaBeneficiarios()
 	}
 	
 	capturaParam();
-	obtieneDatosFicha(paramAdjudicatarioTitle,paramAdjudicatarioId);
+	obtieneDatosFicha(paramId,paramAdjudicatarioTitle,paramAdjudicatarioId);
 	preparaTablaFichaBeneficiarios(paramAdjudicatarioTitle, paramAdjudicatarioId);
 }
 
@@ -94,6 +95,11 @@ function capturaParam()
 		console.log("capturaParam");
 	}
 
+	paramId = getUrlVars()["id"];
+	if(paramId!=undefined)
+	{
+		paramId = decodeURI(paramId);
+	}
 	paramAdjudicatarioTitle = getUrlVars()["nombre"];
 	if(paramAdjudicatarioTitle!=undefined)
 	{
@@ -109,7 +115,7 @@ function capturaParam()
 /*
 	Función que inicializa los datos de la ficha
 */
-function obtieneDatosFicha( adjudicatarioTitle,adjudicatarioId )
+function obtieneDatosFicha( id,adjudicatarioTitle,adjudicatarioId )
 {
 	if(logDebugFichaBeneficiarios)
 	{
@@ -136,7 +142,7 @@ function obtieneDatosFicha( adjudicatarioTitle,adjudicatarioId )
 		console.log( "Request Failed: " + err );
 	});
 	
-	jqxhr = $.getJSON(dameURL(queryTablaFichaBeneficiarios+adjudicatarioId)).done(function( data ) 
+	jqxhr = $.getJSON(dameURL(queryTablaFichaBeneficiariosId+id)).done(function( data ) 
 	{
 		$('#datos_ficha_beneficiarios').append('<p><b>'+data.records[0].adjudicatarioTitle+'</b></p>');
 		$('#datos_ficha_beneficiarios').append('<p><b>'+$.i18n( 'identificador_del_beneficiario' )+':</b> '+data.records[0].adjudicatarioId+'</p>');
@@ -170,6 +176,7 @@ function preparaTablaFichaBeneficiarios(adjudicatarioTitle,adjudicatarioId)
 	if(logDebugFichaBeneficiarios)
 	{
 		console.log("preparaTablaFichaBeneficiarios");
+		console.log(queryTablaFichaBeneficiariosAdj+adjudicatarioId);
 	}
 	
 	var cabecerastablaBeneficiarios="";
@@ -208,7 +215,7 @@ function preparaTablaFichaBeneficiarios(adjudicatarioTitle,adjudicatarioId)
 		},
 		"ajax": 
 		{
-			"url": dameURL(queryTablaFichaBeneficiarios+adjudicatarioId),
+			"url": dameURL(queryTablaFichaBeneficiariosAdj+adjudicatarioId),
 			"dataSrc": function ( data ) 
 			{						
 				var total=data.totalRecords;

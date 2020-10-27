@@ -100,13 +100,19 @@ function inicializaDatosIndicadores()
 	
 	var jqxhr = $.getJSON(dameURL(queryIndicadorSubvenciones+urlFiltroAnyo)).done(function( data ) 
 	{
-		var valor=0;
-		for(var h = 0; h < data.records.length; h++){
-			valor=valor+Number(data.records[h]);
-		}
+		if ((data!=null)&&(data.records!=null)&&(data.records.length>0))
+		{
+			var valor=0;
+			for(var h = 0; h < data.records.length; h++){
+				valor=valor+Number(data.records[h]);
+			}
 
-		var nSubvenciones=numeral(valor);
-		$("#numSubvenciones").html(nSubvenciones.format());
+			var nSubvenciones=numeral(valor);
+			$("#numSubvenciones").html(nSubvenciones.format());
+		}else
+		{
+			console.log( msgErrorAPIResVacio );
+		}
 	}).fail(function( jqxhr, textStatus, error ) 
 	{
 			var err = textStatus + ", " + error;
@@ -126,13 +132,19 @@ function inicializaDatosIndicadores()
 	
 	var jqxhr = $.getJSON(dameURL(queryIndicadorBeneficiarios+urlFiltroAnyo)).done(function( data ) 
 	{
-		var valor=0;
-		for(var h = 0; h < data.records.length; h++){
-			valor=valor+Number(data.records[h]);
-		}
+		if ((data!=null)&&(data.records!=null)&&(data.records.length>0))
+		{
+			var valor=0;
+			for(var h = 0; h < data.records.length; h++){
+				valor=valor+Number(data.records[h]);
+			}
 
-		var nAdjudicatarios=numeral(valor);
-		$("#numAdjudicatarios").html(nAdjudicatarios.format());
+			var nAdjudicatarios=numeral(valor);
+			$("#numAdjudicatarios").html(nAdjudicatarios.format());
+		}else
+		{
+			console.log( msgErrorAPIResVacio );
+		}
 	}).fail(function( jqxhr, textStatus, error ) 
 	{
 		var err = textStatus + ", " + error;
@@ -152,13 +164,19 @@ function inicializaDatosIndicadores()
 	
 	var jqxhr = $.getJSON(dameURL(queryIndicadorImporteTotal+urlFiltroAnyo)).done(function( data ) 
 	{
-		var valor=0;
-		for(var h = 0; h < data.records.length; h++){
-			valor=valor+Number(data.records[h]);
-		}
+		if ((data!=null)&&(data.records!=null)&&(data.records.length>0))
+		{
+			var valor=0;
+			for(var h = 0; h < data.records.length; h++){
+				valor=valor+Number(data.records[h]);
+			}
 
-		var sImporteTotal=numeral(valor);
-		$("#sumImporte").html(sImporteTotal.format(importeFormatoSinDecimales,Math.ceil));
+			var sImporteTotal=numeral(valor);
+			$("#sumImporte").html(sImporteTotal.format(importeFormatoSinDecimales,Math.ceil));
+		}else
+		{
+			console.log( msgErrorAPIResVacio );
+		}
 	}).fail(function( jqxhr, textStatus, error ) 
 	{
 		var err = textStatus + ", " + error;

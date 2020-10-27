@@ -107,7 +107,7 @@ function inicializaDatosIndicadoresGlobales()
 	var indicadoresTemp = {};
 	var jqxhr = $.getJSON(dameURL(queryIndicadorSubvencionesGlobal)).done(function( data ) 
 	{
-		if(data.records!=undefined)
+		if ((data!=null)&&(data.records!=null)&&(data.records.length>0))
 		{
 			
 			for (var i = 0; i < data.records.length; i++) 
@@ -120,7 +120,7 @@ function inicializaDatosIndicadoresGlobales()
 			
 		}else
 		{
-			console.log( "Request empty");
+			console.log( msgErrorAPIResVacio );
 		}
 	}).fail(function( jqxhr, textStatus, error ) 
 	{
@@ -130,7 +130,7 @@ function inicializaDatosIndicadoresGlobales()
 	{
 		var jqxhr = $.getJSON(dameURL(queryIndicadorBeneficiariosGlobal)).done(function( data ) 
 		{
-			if(data.records!=undefined)
+			if ((data!=null)&&(data.records!=null)&&(data.records.length>0))
 			{
 				for (var i = 0; i < data.records.length; i++) 
 				{
@@ -142,7 +142,7 @@ function inicializaDatosIndicadoresGlobales()
 				
 			}else
 			{
-				console.log( "Request empty");
+				console.log( msgErrorAPIResVacio );
 			}
 		}).fail(function( jqxhr, textStatus, error ) 
 		{
@@ -153,7 +153,7 @@ function inicializaDatosIndicadoresGlobales()
 			var indicadoresGlobales=new Array();
 			var jqxhr = $.getJSON(dameURL(queryIndicadorImporteTotalGlobal)).done(function( data ) 
 			{
-				if(data.records!=undefined)
+				if ((data!=null)&&(data.records!=null)&&(data.records.length>0))
 				{
 					
 					var htmlContent = "<div class='row'><div class='col-md-12'><table style='width: 100%;'><tr><th>"+anyoCadena+"</th><th>"+noSubvencionCadena+"</th><th>"+noBeneficiarioCadena+"</th><th>"+importeCadena+"</th></tr>";
@@ -172,7 +172,7 @@ function inicializaDatosIndicadoresGlobales()
 					$('#datos_indGlo').html(htmlContent);
 				}else
 				{
-					console.log( "Request empty");
+					console.log( msgErrorAPIResVacio );
 				}
 			}).fail(function( jqxhr, textStatus, error ) 
 			{

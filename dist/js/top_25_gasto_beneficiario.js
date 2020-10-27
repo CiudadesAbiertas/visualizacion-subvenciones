@@ -98,6 +98,10 @@ function inicializaDatosTop25GastoBeneficiario()
 				beneficiariosSumImporte.push(beneficiario);
 			}
 		}
+		else
+		{
+			console.log( msgErrorAPIResVacio );
+		}
 	}).fail(function( jqxhr, textStatus, error ) 
 	{
 			var err = textStatus + ", " + error;

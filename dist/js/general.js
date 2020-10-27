@@ -39,9 +39,9 @@ var queryGraficoAreas = subvencionAgrupadaURL + "?"+paramFieldsAPI+"=areaTitle, 
 var queryGraficoAreasTop10 = subvencionAgrupadaURL + "?"+paramFieldsAPI+"=areaTitle, count(title)&"+paramGroupAPI+"=areaTitle&"+paramSortAPI+"=-count(title)&"+paramPageSizeAPI+"="+registrosTablaGráficos;
 
 // URL que obtiene una lista de la primera letra del adjudicatarioId e importe agrupada por primera letra del adjudicatarioId y sumando los importes en formato JSON
-var queryGraficoImporteTipoBeneficiarios = subvencionAgrupadaURL+"?"+paramFieldsAPI+"=substring(adjudicatarioId,1,1),sum(importe)&"+paramGroupAPI+"=substring(adjudicatarioId,1,1)";
+var queryGraficoImporteTipoBeneficiarios = subvencionAgrupadaURL+"?"+paramFieldsAPI+"=substring(adjudicatarioId,1,1),sum(importe)&"+paramGroupAPI+"=substring(adjudicatarioId,1,1)&sort=-sum(importe)";
 // URL que obtiene una lista de la primera letra del adjudicatarioId e importe agrupada por primera letra del adjudicatarioId y sumando los importes en formato CSV
-var queryGraficoImporteTipoBeneficiariosCSV = subvencionAgrupadaURLCSV + "?"+paramFieldsAPI+"=substring(adjudicatarioId,1,1),sum(importe)&"+paramGroupAPI+"=substring(adjudicatarioId,1,1)";
+var queryGraficoImporteTipoBeneficiariosCSV = subvencionAgrupadaURLCSV + "?"+paramFieldsAPI+"=substring(adjudicatarioId,1,1),sum(importe)&"+paramGroupAPI+"=substring(adjudicatarioId,1,1)&sort=-sum(importe)";
 
 // URL que obtiene las areas
 var queryIniAreas = subvencionURLdistinct + "?"+paramFieldAPI+"=areaTitle";
@@ -83,7 +83,9 @@ var queryIniGraficoSumImporteBeneficiarios = subvencionAgrupadaURL + "?"+paramFi
 // URL que obtiene una lista de número de beneficiarios, dni/cif y beneficiario agrupando por dni/cif y beneficiario contando el número de beneficiario y ordenando por el número de beneficiario
 var queryIniGraficoNumSubvencionesBeneficiarios = subvencionAgrupadaURL + "?"+paramFieldsAPI+"=count(title),adjudicatarioId,adjudicatarioTitle&"+paramGroupAPI+"=adjudicatarioId	,adjudicatarioTitle&"+paramSortAPI+"=-count(title)";
 // URL que obtiene una subvencion filtrando por dni/cif
-var queryTablaFichaBeneficiarios = subvencionURL + ".json?adjudicatarioId=";
+var queryTablaFichaBeneficiariosAdj = subvencionURL + ".json?adjudicatarioId=";
+// URL que obtiene una subvencion filtrando por el identificador
+var queryTablaFichaBeneficiariosId = subvencionURL + ".json?id=";
 // URL que obtiene una lista de importe agrupando por dni/cif y beneficiario filtrando por dni/cif
 var queryFichaIndicadorSumImporteBeneficiarios_1 = subvencionAgrupadaURL + "?"+paramFieldsAPI+"=sum(importe)&"+paramGroupAPI+"=adjudicatarioId,adjudicatarioTitle&"+paramWhereAPI+"=adjudicatarioId like '";
 var queryFichaIndicadorSumImporteBeneficiarios_2 = "'"
@@ -258,9 +260,15 @@ function inicializaDatosInicio()
 		
 		success: function (data) 
 		{
-			for (var i = 0; i < data.records.length; i++) 
+			if ((data!=null)&&(data.records!=null)&&(data.records.length>0))
 			{
-				anyos.push(Number(data.records[i]));
+				for (var i = 0; i < data.records.length; i++) 
+				{
+					anyos.push(Number(data.records[i]));
+				}
+			}else
+			{
+				console.log( msgErrorAPIResVacio );
 			}
 		},
 
@@ -847,20 +855,17 @@ function dametipoProcedimiento(tipo)
 	switch(tipo) 
 	{
 		case 'subvencion-directa':
-			return "Subvención directa"
-			break;
+			return "Subvención directa";
 		case 'subvencion-nominativa':
-			return "Subvención nominativa"
-			break;
+			return "Subvención nominativa";
 		case 'concesion-directa':
-			return "Concesión directa"
-			break;
+			return "Concesión directa";
 		case 'concurrencia-individualizada':
-			return "Concurrencia individualizada"
-			break;
+			return "Concurrencia individualizada";
 		case 'concurrencia':
-			return "Concurrencia"
-			break;	
+			return "Concurrencia";
+		default:
+			return tipo;
 	}
 
 }

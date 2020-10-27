@@ -102,7 +102,7 @@ function inicializaDatosImporteTipo()
 
 	var jqxhr = $.getJSON(dameURL(queryGraficoImporteTipoBeneficiarios+urlFiltroAnyo)).done(function( data ) 
 	{
-		if(data.records!=undefined)
+		if ((data!=null)&&(data.records!=null)&&(data.records.length>0))
 		{
 			var importePersonasFisicas = Number(0);
 			var importeTipo=new Object();
@@ -130,6 +130,8 @@ function inicializaDatosImporteTipo()
 			importeTipo.importe=importePersonasFisicas;
 			importeTipos.push(importeTipo);
 
+			importeTipos.sort(function(a, b){return b.importe-a.importe});
+
 			var tipoBeneficiarioCadena=$.i18n( 'tipo_beneficiario' );
 			var importeCadena=$.i18n( 'importe' );
 			var htmlContent = "<div class='row'><div class='col-md-12'><table style='width: 100%;'><tr><th>"+tipoBeneficiarioCadena+"</th><th>"+importeCadena+"</th></tr>";
@@ -143,7 +145,7 @@ function inicializaDatosImporteTipo()
 			$('#datos_ImpTipBen').html(htmlContent);
 		}else
 		{
-			console.log( "Request empty");
+			console.log( msgErrorAPIResVacio );
 		}
 	}).fail(function( jqxhr, textStatus, error ) 
 	{

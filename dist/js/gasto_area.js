@@ -105,22 +105,28 @@ function inicializaDatosDepartamentosGastoGlobal()
 	
 	var jqxhr = $.getJSON(dameURL(queryGraficoDepGasto+urlFiltroAnyo)).done(function( data ) 
 	{
-		var areaCadena=$.i18n( 'area' );
-		var importeCadena=$.i18n( 'importe' );
-		var htmlContent = "<div class='row'><div class='col-md-12'><table style='width: 100%;'><tr><th>"+areaCadena+"</th><th>"+importeCadena+"</th></tr>";
-		for (var i = 0; i < data.records.length; i++) 
+		if ((data!=null)&&(data.records!=null)&&(data.records.length>0))
 		{
-			areas.push(data.records[i][0]);
-			var areaGasto=new Object();
-			areaGasto.name=data.records[i][0];
-			areaGasto.value=data.records[i][1];
-			areasGasto.push(areaGasto);
+			var areaCadena=$.i18n( 'area' );
+			var importeCadena=$.i18n( 'importe' );
+			var htmlContent = "<div class='row'><div class='col-md-12'><table style='width: 100%;'><tr><th>"+areaCadena+"</th><th>"+importeCadena+"</th></tr>";
+			for (var i = 0; i < data.records.length; i++) 
+			{
+				areas.push(data.records[i][0]);
+				var areaGasto=new Object();
+				areaGasto.name=data.records[i][0];
+				areaGasto.value=data.records[i][1];
+				areasGasto.push(areaGasto);
 
-			var importe=numeral(data.records[i][1]);
-			htmlContent = htmlContent + "<tr>" + "<td>" + data.records[i][0].toString() + "</td>" + "<td>" + importe.format(numFormato) + "</td>" + "</tr>";
+				var importe=numeral(data.records[i][1]);
+				htmlContent = htmlContent + "<tr>" + "<td>" + data.records[i][0].toString() + "</td>" + "<td>" + importe.format(numFormato) + "</td>" + "</tr>";
+			}
+			htmlContent = htmlContent + "</table><button id='mostarDatos' type='button' class='btn btn-link' onclick=\"mostrarDatos()\">Mostar/Ocultar datos</button></div></div>";
+			$('#datos_gasAre').html(htmlContent);
+		}else
+		{
+			console.log( msgErrorAPIResVacio );
 		}
-		htmlContent = htmlContent + "</table><button id='mostarDatos' type='button' class='btn btn-link' onclick=\"mostrarDatos()\">Mostar/Ocultar datos</button></div></div>";
-		$('#datos_gasAre').html(htmlContent);
 		
 	}).fail(function( jqxhr, textStatus, error ) 
 	{

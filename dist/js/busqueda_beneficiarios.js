@@ -117,10 +117,17 @@ function inicializaDatos()
 	anyos=new Array();
 	var jqxhr = $.getJSON(dameURL(queryIniAnyos)).done(function( data ) 
 	{
-		for (var i = 0; i < data.records.length; i++) 
+		if ((data!=null)&&(data.records!=null)&&(data.records.length>0))
 		{
-			anyos.push(Number(data.records[i]));
+			for (var i = 0; i < data.records.length; i++) 
+			{
+				anyos.push(Number(data.records[i]));
+			}
+		}else
+		{
+			console.log( msgErrorAPIResVacio );
 		}
+		
 	}).fail(function( jqxhr, textStatus, error ) 
 	{
 		var err = textStatus + ", " + error;
@@ -278,6 +285,9 @@ function filtraGraficos(filtroAnyo)
 			htmlContent = htmlContent + "</table><button id='mostarDatos' type='button' class='btn btn-link' onclick=\"mostrarDatos('datos_benSupIzq')\">Mostar/Ocultar datos</button></div></div>";
 			
 			$('#datos_benSupIzq').html(htmlContent);
+		}else
+		{
+			console.log( msgErrorAPIResVacio );
 		}
 	}
 	).fail(function( jqxhr, textStatus, error ) 
@@ -327,6 +337,10 @@ function filtraGraficos(filtroAnyo)
 			}
 			htmlContent = htmlContent + "</table><button id='mostarDatos' type='button' class='btn btn-link' onclick=\"mostrarDatos('datos_benSupDer')\">Mostar/Ocultar datos</button></div></div>";
 			$('#datos_benSupDer').html(htmlContent);
+		}
+		else
+		{
+			console.log( msgErrorAPIResVacio );
 		}
 	}
 	).fail(function( jqxhr, textStatus, error ) {
@@ -420,7 +434,7 @@ function preparaTablaBeneficiarios(segundaPasada)
 	importeCondedidoCadena=$.i18n( 'importe_concedido' );
 	copyCadena=$.i18n( 'copiar' );
 	
-	cabecerasTablaSubvenciones=	"<th>"+nombreBeneficiarioCadena+"</th><th>"+identificadorBeneficiarioCadena+"</th><th>"+tipoEntidadCadena+"</th>";	
+	cabecerasTablaSubvenciones=	"<th>Identificador</th><th>"+nombreBeneficiarioCadena+"</th><th>"+identificadorBeneficiarioCadena+"</th><th>"+tipoEntidadCadena+"</th>";	
 	
 	var urlLanguaje = "vendor/datatables/i18n/"+$.i18n().locale+".json"
 	
@@ -454,6 +468,7 @@ function preparaTablaBeneficiarios(segundaPasada)
 					return_data.push(
 					{
 						'plus' : '',
+						'id' : data.records[i].id,
 						'adjudicatarioId' : data.records[i].adjudicatarioId,
 						'adjudicatarioTitle' : data.records[i].adjudicatarioTitle,
 						'importe' : data.records[i].importe,
@@ -461,6 +476,9 @@ function preparaTablaBeneficiarios(segundaPasada)
 					}
 					)
 				  }
+				}else
+				{
+					console.log( msgErrorAPIResVacio );
 				}
 				
 				return return_data;
@@ -500,6 +518,7 @@ function preparaTablaBeneficiarios(segundaPasada)
 		"columns":  
 		[
 			{'data' : null, 'render': function(data,type,row) {return ('<a aria-label="Abrir ficha" href="'+data.adjudicatarioTitle+'"></a>')}, className:"details-control", orderable: false , "title": fichaCadena, 'name':'Ficha'},
+			{'data': 'id' , "title": "Identificador", 'name':'Identificador'},
 			{'data': 'adjudicatarioTitle' , "title": nombreBeneficiarioCadena, 'name':'adjudicatarioTitle'},
 			{'data': 'adjudicatarioId' , "title": identificadorBeneficiarioCadena, 'name':'adjudicatarioId'},
 			{'data': null, 'render': function(data,type,row) {return (dameTipoEntidad(data.adjudicatarioId))}, "title": tipoEntidadCadena, 'name':'adjudicatarioId' },
@@ -630,12 +649,13 @@ function preparaTablaBeneficiarios(segundaPasada)
 		{
 			var tr = $(this).closest('tr');
 			var row = tablaBeneficiarios.row( tr );
+			var id = row.data()['id'];
 			var adjudicatarioTitle = row.data()['adjudicatarioTitle'];
 			var adjudicatarioId = row.data()['adjudicatarioId'];
 			var fechaAdjudicacion = row.data()['fechaAdjudicacion'];
 			
 			var url = "ficha_beneficiarios.html?lang="+$.i18n().locale
-			url=url+"&nombre="+adjudicatarioTitle+"&dnicif="+adjudicatarioId+"&fechaAdjudicacion="+fechaAdjudicacion;
+			url=url+"&id="+id+"&nombre="+adjudicatarioTitle+"&dnicif="+adjudicatarioId+"&fechaAdjudicacion="+fechaAdjudicacion;
 			// window.open(url,'_blank');
 
 			$('#iframeFicha', window.parent.document).attr('src',url);
@@ -916,6 +936,9 @@ function buscar()
 				}
 				htmlContent = htmlContent + "</table><button id='mostarDatos' type='button' class='btn btn-link' onclick=\"mostrarDatos('datos_benInfIzq')\">Mostar/Ocultar datos</button></div></div>";
 				$('#datos_benInfIzq').html(htmlContent);
+			}else
+			{
+				console.log( msgErrorAPIResVacio );
 			}
 	}
 	).fail(function( jqxhr, textStatus, error ) 
@@ -952,6 +975,9 @@ function buscar()
 			}
 			htmlContent = htmlContent + "</table><button id='mostarDatos' type='button' class='btn btn-link' onclick=\"mostrarDatos('datos_benInfDer')\">Mostar/Ocultar datos</button></div></div>";
 			$('#datos_benInfDer').html(htmlContent);
+		}else
+		{
+			console.log( msgErrorAPIResVacio );
 		}
 	}
 	).fail(function( jqxhr, textStatus, error ) 

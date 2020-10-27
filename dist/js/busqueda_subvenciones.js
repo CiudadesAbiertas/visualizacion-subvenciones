@@ -121,6 +121,9 @@ function inicializaDatos()
 			{
 				areas.push(data.records[i]);
 			}
+		}else
+		{
+			console.log( msgErrorAPIResVacio );
 		}
 	}
 	).fail(function( jqxhr, textStatus, error ) 
@@ -164,6 +167,9 @@ function inicializaDatos()
 			{
 				anyos.push(Number(data.records[i]));
 			}
+		}else
+		{
+			console.log( msgErrorAPIResVacio );
 		}
 	}
 	).fail(function( jqxhr, textStatus, error ) 
@@ -223,6 +229,9 @@ function inicializaDatos()
 			{
 				lineaFinanciacion.push(data.records[i]);
 			}
+		}else
+		{
+			console.log( msgErrorAPIResVacio );
 		}
 	}
 	).fail(function( jqxhr, textStatus, error ) 
@@ -253,6 +262,9 @@ function inicializaDatos()
 			{
 				entidadFinanciadora.push(data.records[i]);
 			}
+		}else
+		{
+			console.log( msgErrorAPIResVacio );
 		}
 	}
 	).fail(function( jqxhr, textStatus, error ) 
@@ -283,6 +295,9 @@ function inicializaDatos()
 			{
 				tipoInstrumento.push(data.records[i]);
 			}
+		}else
+		{
+			console.log( msgErrorAPIResVacio );
 		}
 	}
 	).fail(function( jqxhr, textStatus, error ) 
@@ -313,6 +328,9 @@ function inicializaDatos()
 			{
 				tipoProcedimiento.push(data.records[i]);
 			}
+		}else
+		{
+			console.log( msgErrorAPIResVacio );
 		}
 	}
 	).fail(function( jqxhr, textStatus, error ) 
@@ -343,6 +361,10 @@ function inicializaDatos()
 			{
 				nominativa.push(data.records[i]);
 			}
+		}
+		else
+		{
+			console.log( msgErrorAPIResVacio );
 		}
 	}
 	).fail(function( jqxhr, textStatus, error ) 
@@ -465,6 +487,10 @@ function filtraGraficos(filtroAnyo)
 			
 			$('#datos_subSupIzq').html(htmlContent);
 		}
+		else
+		{
+			console.log( msgErrorAPIResVacio );
+		}
 	}
 	).fail(function( jqxhr, textStatus, error ) 
 	{
@@ -513,6 +539,11 @@ function filtraGraficos(filtroAnyo)
 			
 			$('#datos_subSupDer').html(htmlContent);
 		}
+		else
+		{
+			console.log( msgErrorAPIResVacio );
+		}
+
 	}).fail(function( jqxhr, textStatus, error ) 
 	{
 		var err = textStatus + ", " + error;
@@ -656,6 +687,11 @@ function preparaTablaSubvenciones(segundaPasada)
 						})
 					}
 				}
+				else
+				{
+					console.log( msgErrorAPIResVacio );
+				}
+
 				return return_data;
 			},
 			"data": function ( d ) 
@@ -906,7 +942,13 @@ function buscar()
 	var tipoProcedimiento=$("#selectTipoProcedimiento").val();	
 	var paramTipoProcedimiento="tipoProcedimiento=='"+tipoProcedimiento+"'";
 
-	var nominativa=$("#selectNominativa").val();	
+	var nominativa=-1;	
+	if($("#selectNominativa").val()=="true")
+	{
+		nominativa=1;
+	}else if($("#selectNominativa").val()=="false"){
+		nominativa=0;
+	}
 	var paramNominativa="nominativa="+nominativa+"";
 	
 	var busquedas=0;
@@ -1001,18 +1043,26 @@ function buscar()
 		textoBusqueda=textoBusqueda+'<span class="textoNegrita">'+$.i18n( 'tipo_procedimiento:' )+'</span>'+" "+tipoProcedimiento;
 		busquedaTodo=false;
 	}
-	if (nominativa!='')	
+	if (nominativa==0 || nominativa==1)	
 	{
+		var nomAux='';
 		if(URLParam!="")
 		{
 			URLParam=URLParam+" and ";
 		}
 		URLParam=URLParam+paramNominativa;
+		if(nominativa=="1")
+		{
+			nomAux="Sí";
+		}else if(nominativa=="0")
+		{
+			nomAux="No";
+		}
 		if(textoBusqueda!="")
 		{
 			textoBusqueda=textoBusqueda+" | ";
 		}
-		textoBusqueda=textoBusqueda+'<span class="textoNegrita">'+$.i18n( 'nominativa:' )+'</span>'+" "+nominativa;
+		textoBusqueda=textoBusqueda+'<span class="textoNegrita">'+$.i18n( 'nominativa:' )+'</span>'+" "+nomAux;
 		busquedaTodo=false;
 	}
 
@@ -1073,6 +1123,11 @@ function buscar()
 			
 			$('#datos_subInfIzq').html(htmlContent);
 		}
+		else
+		{
+			console.log( msgErrorAPIResVacio );
+		}
+
 	}).fail(function( jqxhr, textStatus, error ) 
 	{
 		var err = textStatus + ", " + error;
@@ -1107,6 +1162,11 @@ function buscar()
 			
 			$('#datos_subInfDer').html(htmlContent);
 		}
+		else
+		{
+			console.log( msgErrorAPIResVacio );
+		}
+		
 	}).fail(function( jqxhr, textStatus, error ) 
 	{
 		var err = textStatus + ", " + error;
