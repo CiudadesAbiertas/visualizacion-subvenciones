@@ -24,7 +24,7 @@ See the Licence for the specific language governing permissions and limitations 
 		<meta name="author" content="">
 		<title data-i18n="indicadores"></title>
 		<!--Favicon-->
-		<link rel="shortcut icon" type="image/x-icon" href="dist/images/favicon.ico" >
+		<link rel="shortcut icon" type="image/x-icon" href="../comun/dist/images/favicon.ico" >
 		
 		<!-- Hojas de estilos -->
 		
@@ -32,7 +32,7 @@ See the Licence for the specific language governing permissions and limitations 
 		<link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 		
 		<!-- JQUERY UI CSS -->
-		<link  href="vendor/jquery-ui/jquery-ui.css" rel="stylesheet">
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js" integrity="sha512-uto9mlQzrs59VwILcLiRYeLKPPbS/bT71da/OEBYEwcdNUk8jYIy+D176RYoop1Da+f9mvkYrmj5MCLZWEtQuA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 		
 		<!-- DATATABLES CSS -->
 		<link href="vendor/datatables-plugins/dataTables.bootstrap.css" rel="stylesheet">
@@ -41,22 +41,17 @@ See the Licence for the specific language governing permissions and limitations 
 		<link href="vendor/datatables-responsive/dataTables.responsive.css" rel="stylesheet">
 		
 		<!-- bootstrap-slider -->
-		<link href="vendor/bootstrap-slider/css/bootstrap-slider.css" rel="stylesheet">
+		<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.6.1/css/bootstrap-slider.css" rel="stylesheet">
 
 		<!-- Custom Fonts -->
 		<link href="vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 		
 		<!-- Hojas de estilos internos -->
-		<link href="dist/css/ciudadesAbiertas.css" rel="stylesheet" type="text/css">
-		<link rel="stylesheet" href="dist/css/subvenciones.css?v=4">
-		
-		<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-		<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-		<!--[if lt IE 9]>
-			<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-			<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-		<![endif]-->
-		
+		<link rel="stylesheet" href="../comun/dist/css/main.css">
+		<link rel="stylesheet" href="../comun/dist/css/ciudadesAbiertas.css">
+		<link rel="stylesheet" href="dist/css/subvenciones.css">
+		<link rel="stylesheet" href="dist/css/custom.css">
+
 	</head>
 
 	<body>
@@ -70,37 +65,35 @@ See the Licence for the specific language governing permissions and limitations 
 							</div>
 							<div class="col-md-3 col-xs-3">
 								<div class="pull-right">
-									<a href="#" data-toggle="modal" data-target="#modal_info"><i class="fa fa-info-circle" style="font-size:24px;color:#337ab7"></i></a>
-									<!-- /.modal_info -->
+									<a href="#" data-toggle="modal" data-target="#modal_info" aria-label="Información"><em class="fa fa-info-circle" style="font-size:24px;color:#337ab7"></em></a>
 									<div class="btn-group">
 										<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" data-i18n="acciones">
 											<span class="caret"></span>
 										</button>
 										<ul class="dropdown-menu pull-right" role="menu">
-											<li>
+											<li role="menuitem">
 												<a href="#" data-toggle="modal" data-target="#myModalIndicadores" data-i18n="incrustar"></a>
 											</li>
-											<li>
-												<a id="urlAPIIndSub" href="#" target="_blank" data-i18n="url_utilizada_indicador_subvenciones"></a>
+											<li role="menuitem">
+												<a id="urlAPIIndSub" href="#" target="_blank" data-i18n="url_utilizada_indicador_convocatorias"></a>
 											</li>
-											<li>
+											<li role="menuitem">
 												<a id="urlAPIIndBen" href="#" target="_blank" data-i18n="url_utilizada_indicador_beneficiarios"></a>
 											</li>
-											<li>
+											<li role="menuitem">
 												<a id="urlAPIIndImpTot" href="#" target="_blank" data-i18n="url_utilizada_indicador_importe_total"></a>
 											</li>
-											<li>
+											<li role="menuitem">
 												<a id="urlAPIDoc" href="" target="_blank" data-i18n="documentacion_api"></a> 
 											</li>
 										</ul>
 									</div>
-									<!-- /.btn-group -->
 									<div class="modal fade" id="myModalIndicadores" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 									  <div class="modal-dialog">
 										<div class="modal-content">
 										  <div class="modal-header">
 											<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-											<p class="modal-title" id="myModalLabel" data-i18n="incrustar_indicadores"></p>
+											<p class="modal-title" id="myModalLabel" data-i18n="incrustar"></p>
 										  </div>
 										  <div class="modal-body">
 											<div class="form-group">
@@ -111,150 +104,133 @@ See the Licence for the specific language governing permissions and limitations 
 												</textarea>
 											 </div>
 										  </div>
-
 										</div>
 									  </div>
 									</div>
-									<!-- /.modal -->
 								</div>
 							</div>
 						</div>
-						<!-- /.row -->
 					</div>
-					<!-- /.panel-heading -->
 					
 					<div class="panel-body">
 						<div class="col-md-4 col-sm-6">
 							<div class="panel panel-primary">
-								<div class="panel-heading">
+								<div class="panel-heading padding5">
 									<div class="row">
 										<div class="col-xs-3">
-											<span class="fa fa-list  fa-5x" id="iconoIndicadores"></span>
+											<span class="fa fa-list  fa-4x" id="iconoIndicadores"></span>
 										</div>
 										<div class="col-xs-9 text-right">
-											<div class="fontHugeSize" id="numSubvenciones">...</div>
-											<div data-i18n="no_subvenciones">Nº de subvenciones</div>
+											<div class="fontHugeSize" id="numConcesiones">...</div>
+											<div data-i18n="no_concesiones">Nº de concesiones</div>
 										</div>
 									</div>
-									<!-- /.row -->
 								</div>
-								<!-- /.panel-heading -->
 							</div>
-							<!-- /.panel-primary -->
 						</div>
 						<div class="col-md-4 col-sm-6">
-							<div class="panel panel-green">
-								<div class="panel-heading">
+							<div class="panel panel-yellow">
+								<div class="panel-heading padding5">
 									<div class="row">
 										<div class="col-xs-3">
-											<span class="fa fa-users fa-5x" id="iconoIndicadores"></span>
+											<span class="fa fa-users fa-4x" id="iconoIndicadores"></span>
 										</div>
 										<div class="col-xs-9 text-right">
 											<div class="fontHugeSize" id="numAdjudicatarios">...</div>
 											<div data-i18n="no_beneficiarios">Beneficiarios únicos</div>
 										</div>
 									</div>
-									<!-- /.row -->
 								</div>
-								<!-- /.panel-heading -->
 							</div>
-							<!-- /.panel-green -->
 						</div>
 						<div class="col-md-4 col-sm-6">
 							<div class="panel panel-red">
-								<div class="panel-heading">
+								<div class="panel-heading padding5">
 									<div class="row">          
 										<div class="col-xs-3">
-											<span class="fa fa-money  fa-5x" id="iconoIndicadores"></span>
+											<span class="fa fa-money  fa-4x" id="iconoIndicadores"></span>
 										</div>
 										<div class="col-xs-9 text-right">
 											<div class="fontHugeSize" id="sumImporte">...</div>
-											<div data-i18n="importe_total"></div>
+											<div data-i18n="importe_total">mporte concedido total</div>
 										</div>
 									</div>
-									<!-- /.row -->
 								</div>
-								<!-- /.panel-heading -->
 							</div>
-							<!-- /.panel-red -->
 						</div>
-						<p data-i18n="informacion_corta_indicadores">Explicación corta del gráfico de indicadores</p> 
+						<p data-i18n="informacion_corta_indicadores">Explicación corta del gráfico</p> 
 					</div>
-					<!-- /.panel-body -->
 				</div>
-				<!-- /.panel -->
 			</div>
-			<!-- /.row -->
 			
-			<!-- Modal -->
 			<div class="modal fade" id="modal_info" role="dialog">
 			  <div class="modal-dialog">
-				 <!-- Modal content-->
 				<div class="modal-content">
 					<div class="modal-header">
-						<!-- <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button> -->
 						<p class="modal-title" id="modalLabelInf" data-i18n="informacion">Información</p>
 					</div>
-
 					<div class="modal-body">
-						<p data-i18n="modal_titulo_indicadores">Titulo de la ventana modal de la información para los gráficos de indicadores<p>
-						<p data-i18n="modal_descripcion_indicadores">Descripción larga de la ventana modal de indicadores.</p>
+						<p data-i18n="modal_titulo_indicadores">Titulo de la ventana modal<p>
+						<p data-i18n="modal_descripcion_indicadores">Descripción larga de la ventana modal.</p>
 					</div>
-					
 					<div class="modal-footer">
 					  <button type="button" class="btn btn-default" data-dismiss="modal" data-i18n="cerrar">Cerrar</button>
 					</div>
 				</div>
 			  </div>
 			</div>
-			<!-- /.modal -->
 		</div>
 		
 		<!-- Scripts JavaScript -->
 		
 		<!-- jQuery -->
-		<script src="vendor/jquery/jquery.min.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 		
 		<!-- jQuery UI-->
 		<script src="vendor/jquery-ui/jquery-ui.js"></script>
 		<script src="vendor/jquery-ui/datepickerEs.js"></script>
 		
 		<!-- Bootstrap Core -->
-		<script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+        integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+        crossorigin="anonymous"></script>
 
 		<!-- DataTables -->
-		<script src="vendor/datatables/js/jquery.dataTables.min.js"></script>
-		<script src="vendor/datatables-plugins/dataTables.bootstrap.min.js"></script>
-		<script src="vendor/datatables-responsive/dataTables.responsive.js"></script>
-		<script src="vendor/datatables-export/dataTables.buttons.min.js" type="text/javascript"></script>
-		<script src="vendor/datatables-export/jszip.min.js" type="text/javascript"></script>
-		<script src="vendor/datatables-export/pdfmake.min.js" type="text/javascript"></script>
-		<script src="vendor/datatables-export/vfs_fonts.js" type="text/javascript"></script>
-		<script src="vendor/datatables-export/buttons.html5.min.js" type="text/javascript"></script>
+		<script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+		<script src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap.min.js" type="text/javascript"></script>
+		<script src="https://cdn.datatables.net/responsive/1.0.6/js/dataTables.responsive.js"></script>
+		<script src="https://cdn.datatables.net/buttons/1.7.1/js/dataTables.buttons.min.js" type="text/javascript"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js" type="text/javascript"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js" type="text/javascript"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js" type="text/javascript"></script>
+		<script src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.html5.min.js" type="text/javascript"></script>
+    <script src="https://cdn.datatables.net/colreorder/1.5.4/js/dataTables.colReorder.min.js"
+        type="text/javascript"></script>
+    <script src="https://cdn.datatables.net/buttons/1.7.1/js/buttons.colVis.min.js" type="text/javascript"></script>
 
 		<!-- bootstrap-slider -->
-		<script src="vendor/bootstrap-slider/bootstrap-slider.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/11.0.2/bootstrap-slider.js" integrity="sha512-tCkLWlSXiiMsUaDl5+8bqwpGXXh0zZsgzX6pB9IQCZH+8iwXRYfcCpdxl/owoM6U4ap7QZDW4kw7djQUiQ4G2A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>>
 		
-		 <!-- Amcharts Visualizations-->
-		<script src="vendor/amcharts/amcharts.js" type="text/javascript"></script>
-		<script src="vendor/amcharts/serial.js" type="text/javascript"></script>
-		<script src="vendor/amcharts/pie.js" type="text/javascript"></script>
-		<script src="vendor/amcharts4/core.js"></script>
-		<script src="vendor/amcharts4/charts.js"></script>
+		<!-- Amcharts Visualizations-->
+		<script src="https://cdn.amcharts.com/lib/4/core.js"></script>
+    <script src="https://cdn.amcharts.com/lib/4/charts.js"></script>
+    <script src="https://cdn.amcharts.com/lib/version/4.10.19/themes/frozen.js"></script>
+    <script src="https://cdn.amcharts.com/lib/version/4.10.19/themes/animated.js"></script>
+    <script src="https://cdn.amcharts.com/lib/version/4.10.19/lang/es_ES.js"></script>
 		
 		<!-- Normalización de datos -->
-		<script src="vendor/numeral/numeral.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/numeral.js/2.0.6/numeral.min.js"></script>
 		<script src="vendor/datejs/date-es-ES.js"></script>
 		
 		<!-- Multiidoma -->	
 		<script src="vendor/CLDRPluralRuleParser/CLDRPluralRuleParser.js"></script>
-		<script src="vendor/jquery.i18n/jquery.i18n.js"></script>
-		<script src="vendor/jquery.i18n/jquery.i18n.messagestore.js"></script>
-		<script src="vendor/jquery.i18n/jquery.i18n.fallbacks.js"></script>
-		<script src="vendor/jquery.i18n/jquery.i18n.language.js"></script>
-		<script src="vendor/jquery.i18n/jquery.i18n.parser.js"></script>
-		<script src="vendor/jquery.i18n/jquery.i18n.emitter.js"></script>
-		<script src="vendor/jquery.i18n/jquery.i18n.emitter.bidi.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.i18n/1.0.7/jquery.i18n.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.i18n/1.0.7/jquery.i18n.messagestore.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.i18n/1.0.7/jquery.i18n.fallbacks.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.i18n/1.0.7/jquery.i18n.language.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.i18n/1.0.7/jquery.i18n.parser.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.i18n/1.0.7/jquery.i18n.emitter.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.i18n/1.0.7/jquery.i18n.emitter.bidi.min.js"></script>
 		
 		<!-- Scripts internos -->
 		<script src="dist/js/constantes.js"></script>
@@ -262,7 +238,6 @@ See the Licence for the specific language governing permissions and limitations 
 		<script src="dist/js/indicadores.js"></script>
 		
 		<script>
-			/* Se ejecuta la inicialización */
 			$(document).ready(function() {
 				initComun();
 				inicializaIndicadores();
@@ -270,5 +245,4 @@ See the Licence for the specific language governing permissions and limitations 
 		</script>
 
 	</body>
-
 </html>

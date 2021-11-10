@@ -14,14 +14,11 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the Licence for the specific language governing permissions and limitations under the Licence.
 */
 
-/*
-Algunas variables que se usan en este javascript se inicializan en ciudadesAbiertas.js
-*/
-var anyo=undefined;
+var anyo;
 
-var subvencionCadena=$.i18n( 'subvencion' );
-var noSubvencionCadena=$.i18n( 'no_subvenciones' );
-var noSubvencionCadena2=$.i18n( 'no_subvenciones2' );
+var subvencionCadena=$.i18n( 'convocatoria' );
+var noSubvencionCadena=$.i18n( 'no_convocatorias' );
+var noSubvencionCadena2=$.i18n( 'no_convocatorias2' );
 var anyoCadena=$.i18n( 'anyos' );
 var anyoCadena2=$.i18n( 'anyos2' );
 var beneficiarioCadena=$.i18n( 'beneficiario' );
@@ -60,7 +57,7 @@ function inicializaMultidiomaIndicadoresGlobales()
 	}
 	$.i18n().locale = langUrl;
 	document.documentElement.lang=$.i18n().locale;
-	$('html').i18n()
+	$('html').i18n();
 	
 	var iframe1 = '<iframe class="embed-responsive-item" src="';
 	var iframe2 = '" frameborder="0" scrolling="no" height="500" width="100%"></iframe>';
@@ -76,8 +73,8 @@ function inicializaMultidiomaIndicadoresGlobales()
 		}).done(function() 
 		{
 			$('html').i18n();
-			noSubvencionCadena=$.i18n( 'no_subvenciones' );
-			noSubvencionCadena2=$.i18n( 'no_subvenciones2' );
+			noSubvencionCadena=$.i18n( 'no_convocatorias' );
+			noSubvencionCadena2=$.i18n( 'no_convocatorias2' );
 			anyoCadena=$.i18n( 'anyos' );
 			anyoCadena2=$.i18n( 'anyos2' );
 			noBeneficiarioCadena=$.i18n( 'no_beneficiarios' );
@@ -91,7 +88,7 @@ function inicializaMultidiomaIndicadoresGlobales()
 	});
 	
 	// Enable debug
-	$.i18n.debug = logDebugImporteTipoBeneficiarios;
+	$.i18n.debug = logDebugIndicadoresGlobales;
 }
 
 /*
@@ -105,6 +102,7 @@ function inicializaDatosIndicadoresGlobales()
 	}
 
 	var indicadoresTemp = {};
+	var anyos = new Array();
 	var jqxhr = $.getJSON(dameURL(queryIndicadorSubvencionesGlobal)).done(function( data ) 
 	{
 		if ((data!=null)&&(data.records!=null)&&(data.records.length>0))
@@ -113,8 +111,10 @@ function inicializaDatosIndicadoresGlobales()
 			for (var i = 0; i < data.records.length; i++) 
 			{
 				var indicadorGlobal=new Object();
-				var anyo=data.records[i][1];
-				indicadorGlobal.subvencion=data.records[i][0];
+				var anyo=data.records[i].anyo;
+				anyos.push(anyo);
+				indicadorGlobal.subvencion=data.records[i].numero;
+				indicadorGlobal.anyo=anyo;
 				indicadoresTemp[anyo]=indicadorGlobal;
 			}
 			
@@ -134,9 +134,16 @@ function inicializaDatosIndicadoresGlobales()
 			{
 				for (var i = 0; i < data.records.length; i++) 
 				{
-					var anyo=data.records[i][1];
+					var anyo=data.records[i].anyo;
+					if(!anyos.includes(anyo))
+					{
+						anyos.push(anyo);
+					}
 					var indicadorGlobal=indicadoresTemp[anyo];
-					indicadorGlobal.beneficiario=data.records[i][0];
+					if(indicadorGlobal===undefined){
+						indicadorGlobal = new Object();
+					}
+					indicadorGlobal.beneficiario=data.records[i].numero;
 					indicadoresTemp[anyo]=indicadorGlobal;
 				}
 				
@@ -150,7 +157,7 @@ function inicializaDatosIndicadoresGlobales()
 				console.log( "Request Failed: " + err );
 		}).always(function() 
 		{
-			var indicadoresGlobales=new Array();
+			
 			var jqxhr = $.getJSON(dameURL(queryIndicadorImporteTotalGlobal)).done(function( data ) 
 			{
 				if ((data!=null)&&(data.records!=null)&&(data.records.length>0))
@@ -159,16 +166,26 @@ function inicializaDatosIndicadoresGlobales()
 					var htmlContent = "<div class='row'><div class='col-md-12'><table style='width: 100%;'><tr><th>"+anyoCadena+"</th><th>"+noSubvencionCadena+"</th><th>"+noBeneficiarioCadena+"</th><th>"+importeCadena+"</th></tr>";
 					for (var i = 0; i < data.records.length; i++) 
 					{
-						var anyo=data.records[i][1];
+						var anyo=data.records[i].anyo;
+						if(!anyos.includes(anyo))
+						{
+							anyos.push(anyo);
+						}
+						
 						var indicadorGlobal=indicadoresTemp[anyo];
-						indicadorGlobal.importe=data.records[i][0];
+						if(indicadorGlobal===undefined){
+							indicadorGlobal = new Object();
+						}
+						indicadorGlobal.importe=data.records[i].suma;
 						indicadorGlobal.anyo=anyo;
-						indicadoresGlobales.push(indicadorGlobal);
+						indicadoresTemp[anyo]=indicadorGlobal;
+						
 
 						var importe=numeral(indicadorGlobal.importe);
 						htmlContent = htmlContent + "<tr>" + "<td>" + indicadorGlobal.anyo + "</td>" + "<td>" + indicadorGlobal.subvencion + "</td>" + "<td>" + indicadorGlobal.beneficiario + "</td>" + "<td>" + importe.format(numFormato) + "</td>" + "</tr>";
 					}
-					htmlContent = htmlContent + "</table><button id='mostarDatos' type='button' class='btn btn-link' onclick=\"mostrarDatos()\">Mostar/Ocultar datos</button></div></div>";
+					var mensaje_mostar_ocultar_datos =  $.i18n( 'mostar_ocultar_datos' );
+					htmlContent = htmlContent + "</table><button id='mostarDatos' type='button' class='btn btn-link' onclick=\"mostrarDatos()\">"+mensaje_mostar_ocultar_datos+"</button></div></div>";
 					$('#datos_indGlo').html(htmlContent);
 				}else
 				{
@@ -180,12 +197,20 @@ function inicializaDatosIndicadoresGlobales()
 					console.log( "Request Failed: " + err );
 			}).always(function() 
 			{
-				pintaIndicadoresGlobales(indicadoresGlobales);
-				// modificaTaskMaster("iframeImporteTipoBeneficiarios");		
+				var indicadoresGlobales=new Array();
+				for(var h=0;h<anyos.length;h++){
+					var anyo= anyos[h];
+					indicadoresGlobales.push(indicadoresTemp[anyo]);
+				}
+				pintaIndicadoresGlobales(indicadoresGlobales);	
 			});
 		});
 	});
 	
+}
+
+function pasaArray(element) {
+	indicadoresGlobales.push(element);
 }
 
 /*
@@ -197,10 +222,14 @@ function insertaURLSAPI()
 	{
 		console.log("insertaURLSAPI");
 	}
+	if (!inIframe())
+	{
+		$('#urlMax').hide();
+	}
 	$('#urlAPIIndSubGlobal').attr("href", queryIndicadorSubvencionesGlobal);
 	$('#urlAPIIndBenGlobal').attr("href", queryIndicadorBeneficiariosGlobal);
 	$('#urlAPIIndImpTotGlobal').attr("href", queryIndicadorImporteTotalGlobal);
-	$('#urlAPIDoc').attr("href", docAPI);
+	$('#urlAPIDoc').attr("href", docAPIConcesion);
 	$('#urlMax').attr("href", window.location.href);
 	$('#urlMax').attr("target", '_blank');
 }
@@ -215,19 +244,17 @@ function pintaIndicadoresGlobales(indicadoresGlobales)
 		console.log("pintaIndicadoresGlobales");
 	}
 	
-	var chart = am4core.create("chartIndicadoresGlobales", am4charts.XYChart);
+	var chart = am4core.create("chartdiv", am4charts.XYChart);
 	
 	chart.data = indicadoresGlobales;
 	chart.language.locale._decimalSeparator= ",";
 	chart.language.locale._thousandSeparator= ".";
 	
-	// Create category axis
 	var categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
 	categoryAxis.dataFields.category = "anyo";
 	categoryAxis.renderer.opposite = true;
 	categoryAxis.title.text = anyoCadena2;
 	
-	// Create series
 	var valueAxis1 = chart.yAxes.push(new am4charts.ValueAxis());
 	valueAxis1.title.text = noSubvencionCadena2;
 	var series1 = chart.series.push(new am4charts.LineSeries());
@@ -237,7 +264,7 @@ function pintaIndicadoresGlobales(indicadoresGlobales)
 	series1.yAxis = valueAxis1;
 	series1.strokeWidth = 3;
 	series1.bullets.push(new am4charts.CircleBullet());
-	series1.tooltipText = "{name} in {categoryX}: {valueY}";
+	series1.tooltipText = "{name} en {categoryX}: {valueY}";
 	series1.legendSettings.valueText = "{valueY}";
 	
 	var valueAxis2 = chart.yAxes.push(new am4charts.ValueAxis());
@@ -249,7 +276,7 @@ function pintaIndicadoresGlobales(indicadoresGlobales)
 	series2.yAxis = valueAxis2;
 	series2.strokeWidth = 3;
 	series2.bullets.push(new am4charts.CircleBullet());
-	series2.tooltipText = "{name} in {categoryX}: {valueY}";
+	series2.tooltipText = "{name} en {categoryX}: {valueY}";
 	series2.legendSettings.valueText = "{valueY}";
 	
 	var valueAxis3 = chart.yAxes.push(new am4charts.ValueAxis());
@@ -261,126 +288,14 @@ function pintaIndicadoresGlobales(indicadoresGlobales)
 	series3.yAxis = valueAxis3;
 	series3.strokeWidth = 3;
 	series3.bullets.push(new am4charts.CircleBullet());
-	series3.tooltipText = "{name} in {categoryX}: {valueY}";
+	series3.tooltipText = "{name} en {categoryX}: {valueY}";
 	series3.legendSettings.valueText = "{valueY}";
 	
-	// Add chart cursor
 	chart.cursor = new am4charts.XYCursor();
 	chart.cursor.behavior = "zoomY";
 	
-	// Add legend
 	chart.legend = new am4charts.Legend();
 	
-	if (inIframe())
-	{	
-		$("#chartIndicadoresGlobales").height(parent.heightIndicadoresGlobal);		
-	}
-	else
-	{		
-		var h = window.innerHeight;
-		h=h-($(".panel-heading").height()*4);		
-		var p=porcentaje(h,93);
-		$("#chartIndicadoresGlobales").height(p);
-	}
-}
-
-/*
-	Función que pinta el gráfico
-*/
-function pintaIndicadoresGlobales2(indicadoresGlobales)
-{
-	if(logDebugIndicadoresGlobales)
-	{
-		console.log("pintaIndicadoresGlobales2");
-	}
-	var chart = am4core.create("chartIndicadoresGlobales", am4charts.XYChart);
-	chart.colors.step = 2;
-	
-	chart.data = indicadoresGlobales;
-	
-	// Create axes
-	var categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
-	categoryAxis.renderer.minGridDistance = 50;
-	categoryAxis.title.text = anyoCadena2;
-
-	function createAxisAndSeries(field, name, opposite, bullet) {
-		var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
-		var series = chart.series.push(new am4charts.LineSeries());
-		
-		
-
-		series.dataFields.valueY = field;
-		series.dataFields.categoryX = "anyo";
-		series.strokeWidth = 2;
-		series.yAxis = valueAxis;
-		
-		series.name = name;
-		series.tooltipText = "{name}: [bold]{valueY}[/]";
-		series.tensionX = 0.8;
-		
-		var interfaceColors = new am4core.InterfaceColorSet();
-		
-		switch(bullet) {
-			case "triangle":
-			  var bullet = series.bullets.push(new am4charts.Bullet());
-			  bullet.width = 12;
-			  bullet.height = 12;
-			  bullet.horizontalCenter = "middle";
-			  bullet.verticalCenter = "middle";
-			  
-			  var triangle = bullet.createChild(am4core.Triangle);
-			  triangle.stroke = interfaceColors.getFor("background");
-			  triangle.strokeWidth = 2;
-			  triangle.direction = "top";
-			  triangle.width = 12;
-			  triangle.height = 12;
-			  break;
-			case "rectangle":
-			  var bullet = series.bullets.push(new am4charts.Bullet());
-			  bullet.width = 10;
-			  bullet.height = 10;
-			  bullet.horizontalCenter = "middle";
-			  bullet.verticalCenter = "middle";
-			  
-			  var rectangle = bullet.createChild(am4core.Rectangle);
-			  rectangle.stroke = interfaceColors.getFor("background");
-			  rectangle.strokeWidth = 2;
-			  rectangle.width = 10;
-			  rectangle.height = 10;
-			  break;
-			default:
-			  var bullet = series.bullets.push(new am4charts.CircleBullet());
-			  bullet.circle.stroke = interfaceColors.getFor("background");
-			  bullet.circle.strokeWidth = 2;
-			  break;
-		}
-		
-		valueAxis.renderer.line.strokeOpacity = 1;
-		valueAxis.renderer.line.strokeWidth = 2;
-		valueAxis.renderer.line.stroke = series.stroke;
-		valueAxis.renderer.labels.template.fill = series.stroke;
-		valueAxis.renderer.opposite = opposite;
-		valueAxis.renderer.grid.template.disabled = true;
-	}
-	
-	createAxisAndSeries("subvencion", noSubvencionCadena2, false, "circle");
-	createAxisAndSeries("beneficiario", noBeneficiarioCadena2, true, "triangle");
-	createAxisAndSeries("importe", importeCadena2, true, "rectangle");
-	
-	// Add legend
-	chart.legend = new am4charts.Legend();
-
-	if (inIframe())
-	{	
-		$("#chartImporteTipo").height(parent.heightTipoBeneficiario);		
-	}
-	else
-	{		
-		var h = window.innerHeight;
-		h=h-($(".panel-heading").height()*4);		
-		var p=porcentaje(h,93);
-		$("#chartImporteTipo").height(p);
-	}
 
 }
 

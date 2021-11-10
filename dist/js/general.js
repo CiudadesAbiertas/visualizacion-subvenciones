@@ -14,108 +14,30 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the Licence for the specific language governing permissions and limitations under the Licence.
 */
 
-/* Llamadas a la API */
-
-// URL que obtiene una lista de subvenciones agrupada por tipoInstrumento y contanto las subvenciones
-var queryIndicadorSubvenciones = subvencionAgrupadaURL + "?"+paramFieldsAPI+"=count(id)&"+paramGroupAPI+"=tipoInstrumento";
-// URL que obtiene una lista de beneficiarios agrupada por tipoInstrumento y contanto las beneficiarios
-var queryIndicadorBeneficiarios = subvencionAgrupadaURL + "?"+paramFieldsAPI+"=count(distinct adjudicatarioId)&"+paramGroupAPI+"=tipoInstrumento";
-// URL que obtiene una lista de importes agrupada por tipoInstrumento y sumando los importes
-var queryIndicadorImporteTotal = subvencionAgrupadaURL + "?"+paramFieldsAPI+"=sum(importe)&"+paramGroupAPI+"=tipoInstrumento";
-// URL que obtiene una lista de subvenciones agrupada por año y contanto las subvenciones
-var queryIndicadorSubvencionesGlobal = subvencionAgrupadaURL + "?"+paramFieldsAPI+"=count(distinct id),YEAR(fechaAdjudicacion)&"+paramGroupAPI+"=YEAR(fechaAdjudicacion)";
-// URL que obtiene una lista de beneficiarios agrupada por año y contanto las beneficiarios
-var queryIndicadorBeneficiariosGlobal = subvencionAgrupadaURL + "?"+paramFieldsAPI+"=count(distinct adjudicatarioId),YEAR(fechaAdjudicacion)&"+paramGroupAPI+"=YEAR(fechaAdjudicacion)";
-// URL que obtiene una lista de importes agrupada por año y sumando los importes
-var queryIndicadorImporteTotalGlobal = subvencionAgrupadaURL + "?"+paramFieldsAPI+"=sum(importe),YEAR(fechaAdjudicacion)&"+paramGroupAPI+"=YEAR(fechaAdjudicacion)";
-
-// URL que obtiene una lista del nombre de las áreas y la suma del importe de las áreas en formato JSON
-var queryGraficoDepGasto = subvencionAgrupadaURL + "?"+paramFieldsAPI+"=areaTitle, sum(importe)&"+paramGroupAPI+"=areaTitle&"+paramSortAPI+"=-sum(importe)";
-// URL que obtiene una lista del nombre de las áreas y la suma del importe de las áreas en formato CSV
-var queryGraficoDepGastoCSV = subvencionAgrupadaURLCSV + "?"+paramFieldsAPI+"=areaTitle, sum(importe)&"+paramGroupAPI+"=areaTitle&"+paramSortAPI+"=-sum(importe)";
-// URL que obtiene una lista del nombre de las áreas y la suma del importe de las áreas en formato JSON
-var queryGraficoAreas = subvencionAgrupadaURL + "?"+paramFieldsAPI+"=areaTitle, count(title)&"+paramGroupAPI+"=areaTitle&"+paramSortAPI+"=-count(title)";
-// URL que obtiene una lista del top 10 del nombre de las áreas y la suma del importe de las áreas en formato JSON
-var queryGraficoAreasTop10 = subvencionAgrupadaURL + "?"+paramFieldsAPI+"=areaTitle, count(title)&"+paramGroupAPI+"=areaTitle&"+paramSortAPI+"=-count(title)&"+paramPageSizeAPI+"="+registrosTablaGráficos;
-
-// URL que obtiene una lista de la primera letra del adjudicatarioId e importe agrupada por primera letra del adjudicatarioId y sumando los importes en formato JSON
-var queryGraficoImporteTipoBeneficiarios = subvencionAgrupadaURL+"?"+paramFieldsAPI+"=substring(adjudicatarioId,1,1),sum(importe)&"+paramGroupAPI+"=substring(adjudicatarioId,1,1)&sort=-sum(importe)";
-// URL que obtiene una lista de la primera letra del adjudicatarioId e importe agrupada por primera letra del adjudicatarioId y sumando los importes en formato CSV
-var queryGraficoImporteTipoBeneficiariosCSV = subvencionAgrupadaURLCSV + "?"+paramFieldsAPI+"=substring(adjudicatarioId,1,1),sum(importe)&"+paramGroupAPI+"=substring(adjudicatarioId,1,1)&sort=-sum(importe)";
-
-// URL que obtiene las areas
-var queryIniAreas = subvencionURLdistinct + "?"+paramFieldAPI+"=areaTitle";
-// URL que obtiene las Lineas de Financiacion
-var queryIniLineaFinanciacion = subvencionURLdistinct + "?"+paramFieldAPI+"=lineaFinanciacion&"+paramPageAPI+"=1&"+paramPageSizeAPI+"=100";
-// URL que obtiene las entidades Financiadoras
-var queryIniEntidadFinanciadoraTitle = subvencionURLdistinct + "?"+paramFieldAPI+"=entidadFinanciadoraTitle&"+paramPageAPI+"=1&"+paramPageSizeAPI+"=100";
-// URL que obtiene los tipos de instrumento
-var queryIniTipoInstrumento = subvencionURLdistinct + "?"+paramFieldAPI+"=tipoInstrumento&"+paramPageAPI+"=1&"+paramPageSizeAPI+"=100";
-// URL que obtiene los tipos de instrumento
-var queryIniTipoProcedimiento = subvencionURLdistinct + "?"+paramFieldAPI+"=tipoProcedimiento&"+paramPageAPI+"=1&"+paramPageSizeAPI+"=100";
-// URL que obtiene los nominativa
-var queryIniNominativa = subvencionURLdistinct + "?"+paramFieldAPI+"=nominativa&"+paramPageAPI+"=1&"+paramPageSizeAPI+"=100";
-
-// URL que obtiene una lista agrupada por lineas de financiación contando las subvenciones
-var queryIniGraficoSubvencionesLineaFinanciacion = subvencionAgrupadaURL + "?"+paramFieldsAPI+"=lineaFinanciacion,count(title)&"+paramGroupAPI+"=lineaFinanciacion&"+paramSortAPI+"=-count(title)&"+paramPageSizeAPI+"=50";
-
-// URL que obtiene una lista de años agruando por años 
-var queryIniAnyos = subvencionAgrupadaURL + "?"+paramFieldsAPI+"=YEAR(fechaAdjudicacion)&"+paramGroupAPI+"=YEAR(fechaAdjudicacion)";
-// URL que obtiene una lista de lineaFinanciacion e importe agrupada por lineaFinanciacion y sumando los importes
-var queryIniGraficoLineaNum = subvencionAgrupadaURL + "?"+paramFieldsAPI+"=lineaFinanciacion,count(title)&"+paramGroupAPI+"=lineaFinanciacion&"+paramSortAPI+"=-count(title)";
-// URL que obtiene una lista de nombre y area agrupando por nombre y area
-var queryBusquedaSubvenciones = subvencionAgrupadaURL + "?"+paramFieldsAPI+"=title,areaTitle,entidadFinanciadoraTitle,lineaFinanciacion,tipoInstrumento,aplicacionPresupuestaria&"+paramGroupAPI+"=title,areaTitle,entidadFinanciadoraTitle,lineaFinanciacion,tipoInstrumento,aplicacionPresupuestaria";
-// URL que obtiene una subvencion filtrando por nombre, area 
-var queryTablaFichaSubvenciones_1 = subvencionURL + "?title=";
-var queryTablaFichaSubvenciones_2 = "&areaTitle=";
-var queryTablaFichaSubvenciones_3 = "&"+paramSortAPI+"=-importe";
-// URL que obtiene una lista de importe agrupando por nombre y area, filtrando por nombre y area y contando el numero de subvenciones
-var queryFichaIndicadorNumSubvenciones_1 = subvencionAgrupadaURL + "?"+paramFieldsAPI+"=count(importe)&"+paramGroupAPI+"=title,areaTitle&"+paramWhereAPI+"=title like '";
-var queryFichaIndicadorNumSubvenciones_2 = "' and areaTitle like '";
-var queryFichaIndicadorNumSubvenciones_3 = "'";
-// URL que obtiene una lista de importe agrupando por nombre y area filtrando por nombre y area y sumando el importe
-var queryFichaIndicadorSumSubvenciones_1 = subvencionAgrupadaURL + "?"+paramFieldsAPI+"=sum(importe)&"+paramGroupAPI+"=title,areaTitle&"+paramWhereAPI+"=title like '";
-var queryFichaIndicadorSumSubvenciones_2 = "' and areaTitle like '";
-var queryFichaIndicadorSumSubvenciones_3 = "'";
-
-// URL que obtiene una lista de importe, dni/cif y beneficiario agrupando por dni/cif y beneficiario y sumando los importes y ordenando por la suma de los importes 
-var queryIniGraficoSumImporteBeneficiarios = subvencionAgrupadaURL + "?"+paramFieldsAPI+"=sum(importe),adjudicatarioId,adjudicatarioTitle&"+paramGroupAPI+"=adjudicatarioId,adjudicatarioTitle&"+paramSortAPI+"=-sum(importe)";
-// URL que obtiene una lista de número de beneficiarios, dni/cif y beneficiario agrupando por dni/cif y beneficiario contando el número de beneficiario y ordenando por el número de beneficiario
-var queryIniGraficoNumSubvencionesBeneficiarios = subvencionAgrupadaURL + "?"+paramFieldsAPI+"=count(title),adjudicatarioId,adjudicatarioTitle&"+paramGroupAPI+"=adjudicatarioId	,adjudicatarioTitle&"+paramSortAPI+"=-count(title)";
-// URL que obtiene una subvencion filtrando por dni/cif
-var queryTablaFichaBeneficiariosAdj = subvencionURL + ".json?adjudicatarioId=";
-// URL que obtiene una subvencion filtrando por el identificador
-var queryTablaFichaBeneficiariosId = subvencionURL + ".json?id=";
-// URL que obtiene una lista de importe agrupando por dni/cif y beneficiario filtrando por dni/cif
-var queryFichaIndicadorSumImporteBeneficiarios_1 = subvencionAgrupadaURL + "?"+paramFieldsAPI+"=sum(importe)&"+paramGroupAPI+"=adjudicatarioId,adjudicatarioTitle&"+paramWhereAPI+"=adjudicatarioId like '";
-var queryFichaIndicadorSumImporteBeneficiarios_2 = "'"
-// URL que obtiene una lista de número de beneficiarios agrupando por dni/cif y beneficiario filtrando por dni/cif
-var queryFichaIndicadorNumSubvencionesBeneficiarios_1 = subvencionAgrupadaURL + "?"+paramFieldsAPI+"=count(title)&"+paramGroupAPI+"=adjudicatarioId,adjudicatarioTitle&"+paramWhereAPI+"=adjudicatarioId like '";
-var queryFichaIndicadorNumSubvencionesBeneficiarios_2 = "'";
-// URL que obtiene una lista de número de importe, año agrupando por año ordenando por año, filtrando por dni/cif
-var queryFichaGraficoSumImporteBeneficiarioAnyo_1 = subvencionAgrupadaURL + "?"+paramFieldsAPI+"=sum(importe),YEAR(fechaAdjudicacion)&"+paramGroupAPI+"=YEAR(fechaAdjudicacion)&"+paramSortAPI+"=-YEAR(fechaAdjudicacion)&"+paramWhereAPI+"=adjudicatarioId like '";
-var queryFichaGraficoSumImporteBeneficiarioAnyo_2 = "'";
-// URL que obtiene una lista de importe, dni/cif y beneficiario agrupando por dni/cif y beneficiario sumando los importes y ordenando por la suma de los importes y filtrando os 50 primeros
-var queryGraficoBusquedaSumImporteBeneficiarios = subvencionAgrupadaURL + "?"+paramFieldsAPI+"=sum(importe),adjudicatarioId,adjudicatarioTitle&"+paramGroupAPI+"=adjudicatarioId,adjudicatarioTitle&"+paramSortAPI+"=-sum(importe)&"+paramPageSizeAPI+"="+registrosTablaGráficos;
-var queryGraficoBusquedaSumImporteBeneficiariosCSV = subvencionAgrupadaURLCSV + "?"+paramFieldsAPI+"=sum(importe),adjudicatarioId,adjudicatarioTitle&"+paramGroupAPI+"=adjudicatarioId,adjudicatarioTitle&"+paramSortAPI+"=-sum(importe)&"+paramPageSizeAPI+"="+registrosTablaGráficos;
-// URL que obtiene una lista de número de beneficiarios, dni/cif y beneficiario agrupando por dni/cif y beneficiario contando el número de beneficiarios y ordenando por el número de beneficiarios y filtrando os 50 primeros
-var queryGraficoBusquedaNumSubvencionesBeneficiarios = subvencionAgrupadaURL + "?"+paramFieldsAPI+"=count(title),adjudicatarioId,adjudicatarioTitle&"+paramGroupAPI+"=adjudicatarioId,adjudicatarioTitle&"+paramSortAPI+"=-count(title)&"+paramPageSizeAPI+"="+registrosTablaGráficos;
 
 // variables para normalizar datos
 var numFormatoSinDecimales='0,0';
 var numFormato='0,0.[00]';
+var numFormatoCSV='0.[00]';
 var importeFormato='0,0.[00] $';
 var importeFormatoSinDecimales='0,0 $';
 
 // Lista para almnacenar los años de las subvenciones
-var anyos=new Array();
+// var anyos=new Array();
+var anyosNumber=new Array();
+var anyosString=new Array();
+var anyoPorDefecto;
+var organizacionesIni;
+var mySlider;
+var datosIniciados=false;
 
 /* 
 	Métodos para el arranque de la web
 */
 function initComun()
 {
-	if(logDebugComun){
+	if(logDebugComun)
+	{
 		console.log("initComun");
 	}
 	
@@ -140,13 +62,15 @@ function multidiomaComun()
 			es: 'dist/i18n/es.json',
 			gl: 'dist/i18n/gl.json'
 		}).done(function(){
-			$('html').i18n()
+			$('html').i18n();
 		});
 		
 		//configuración del botón que cambia de idioma
 		$(".switch-locale").click(function(){
 			
-			var r = confirm("Si se cambia de idioma se perderán las posibles busquedas realizadas");
+			
+			var mensaje_cambio_idioma =  $.i18n( 'mensaje_cambio_idioma' );
+			var r = confirm(mensaje_cambio_idioma);
 			if (r == true) 
 			{
 				$('.modal').modal('show');
@@ -157,14 +81,6 @@ function multidiomaComun()
 				$.i18n().locale = $(this).data('locale');
 				$('html').i18n();
 				document.documentElement.lang=$.i18n().locale; 
-				// $('#iframeIndicadores').contents().i18n().locale = $(this).data('locale');
-				// $('#iframeIndicadoresGlobales').contents().i18n().locale = $(this).data('locale');
-				// $('#iframeImporteTipoBeneficiarios').contents().i18n().locale = $(this).data('locale');
-				// $('#iframeDepartamentosGastoGlobal').contents().i18n().locale = $(this).data('locale');
-				// $('#iframeImporteMeses').contents().i18n().locale = $(this).data('locale');
-				// $('#iframeBusquedaBeneficiarios').contents().i18n().locale = $(this).data('locale');
-				// $('#iframeBusquedaSubvenciones').contents().i18n().locale = $(this).data('locale');
-				// $('#iframeBusquedaSubvenciones').contents().i18n();
 				
 				var url = "";
 				url = $('#iframeBusquedaBeneficiarios').attr('src');
@@ -179,36 +95,59 @@ function multidiomaComun()
 
 				url = $('#iframeIndicadores').attr('src');
 				pos = url.search('lang=');
-				url = url.substring(0,pos)+'anyo='+anyos[anyos.length-1]+'&lang='+$(this).data('locale');
+				url = url.substring(0,pos)+'anyo='+anyosString[anyosString.length-1]+'&lang='+$(this).data('locale');
 				$('#iframeIndicadores').attr('src',url);
 
 				url = $('#iframeIndicadoresGlobales').attr('src');
 				pos = url.search('lang=');
-				url = url.substring(0,pos)+'anyo='+anyos[anyos.length-1]+'&lang='+$(this).data('locale');
+				url = url.substring(0,pos)+'anyo='+anyosString[anyosString.length-1]+'&lang='+$(this).data('locale');
 				$('#iframeIndicadoresGlobales').attr('src',url);
 
 				url = $('#iframeImporteTipoBeneficiarios').attr('src');
 				pos = url.search('lang=');
-				url = url.substring(0,pos)+'anyo='+anyos[anyos.length-1]+'&lang='+$(this).data('locale');
+				url = url.substring(0,pos)+'anyo='+anyosString[anyosString.length-1]+'&lang='+$(this).data('locale');
 				$('#iframeImporteTipoBeneficiarios').attr('src',url);
 
-				url = $('#iframeDepartamentosGastoGlobal').attr('src');
+				url = $('#iframeImporteArea').attr('src');
 				pos = url.search('lang=');
-				url = url.substring(0,pos)+'anyo='+anyos[anyos.length-1]+'&lang='+$(this).data('locale');
-				$('#iframeDepartamentosGastoGlobal').attr('src',url);
+				url = url.substring(0,pos)+'anyo='+anyosString[anyosString.length-1]+'&lang='+$(this).data('locale');
+				$('#iframeImporteArea').attr('src',url);
 
-				// url = $('#iframeImporteMeses').attr('src');
-				// pos = url.search('lang=');
-				// url = url.substring(0,pos)+'anyo='+anyos[anyos.length-1]+'&lang='+$(this).data('locale');
-				// $('#iframeImporteMeses').attr('src',url);
+				url = $('#iframeImporteServicio').attr('src');
+				pos = url.search('lang=');
+				url = url.substring(0,pos)+'anyo='+anyosString[anyosString.length-1]+'&lang='+$(this).data('locale');
+				$('#iframeImporteServicio').attr('src',url);
+
+				url = $('#iframeGestionado').attr('src');
+				pos = url.search('lang=');
+				url = url.substring(0,pos)+'anyo='+anyosString[anyosString.length-1]+'&lang='+$(this).data('locale');
+				$('#iframeGestionado').attr('src',url);
+
+				url = $('#iframeConvenio').attr('src');
+				pos = url.search('lang=');
+				url = url.substring(0,pos)+'anyo='+anyosString[anyosString.length-1]+'&lang='+$(this).data('locale');
+				$('#iframeConvenio').attr('src',url);
+
+				url = $('#iframeClasificacionPrograma').attr('src');
+				pos = url.search('lang=');
+				url = url.substring(0,pos)+'anyo='+anyosString[anyosString.length-1]+'&lang='+$(this).data('locale');
+				$('#iframeClasificacionPrograma').attr('src',url);
+
+
+				url = $('#iframeClasificacionEconGast').attr('src');
+				pos = url.search('lang=');
+				url = url.substring(0,pos)+'anyo='+anyosString[anyosString.length-1]+'&lang='+$(this).data('locale');
+				$('#iframeClasificacionEconGast').attr('src',url);
+
 
 				taskMaster = {
 					iframeIndicadores:true, 
-					iframeDepartamentosGastoGlobal:true, 
-					// iframeImporteMeses:true, 
+					iframeImporteArea:true, 
 					iframeBusquedaSubvenciones:false, 
 					iframeBusquedaBeneficiarios:false,
-					iframeImporteTipoBeneficiarios:true
+					iframeImporteTipoBeneficiarios:true,
+					iframeClasificacionPrograma:true,
+					iframeClasificacionEconomicaGasto:true
 				};
 				
 				checkTaskMaster();
@@ -237,14 +176,14 @@ function inicializaDatosInicio()
 	$.ajaxSetup({
 		beforeSend: function (xhr)
 		{
-			authorization = sessionStorage.getItem("authorization");
+			var authorization = sessionStorage.getItem("authorization");
 			xhr.setRequestHeader("Accept","application/json");
 			xhr.setRequestHeader("Authorization",authorization);        
 		}
 	});
 
-	anyos=new Array();
-	var theURL = dameURL(queryIniAnyos);
+		
+	var theURL = dameURL(queryIniAnyosConcesiones);
 	$.ajax({
 		type: 'GET',
 		url: theURL,
@@ -252,19 +191,16 @@ function inicializaDatosInicio()
 		crossDomain: true,
 		contentType: "application/json; charset=utf-8",
 		timeout: valTimeout ,
-	  
-		// headers: {
-		// 	'Accept': 'application/json',
-		// 	'Authorization': authorization
-		// }, 
 		
 		success: function (data) 
 		{
+			console.log("Llamada queryIniAnyosConcesiones");
 			if ((data!=null)&&(data.records!=null)&&(data.records.length>0))
 			{
 				for (var i = 0; i < data.records.length; i++) 
 				{
-					anyos.push(Number(data.records[i]));
+					anyosString.push(data.records[i].anyo);
+					anyosNumber.push(Number(data.records[i].anyo));
 				}
 			}else
 			{
@@ -273,67 +209,98 @@ function inicializaDatosInicio()
 		},
 
 		error: function (xhr, textStatus, errorThrown)
-	    {
-	    	
-	    	console.error( xhr.status);
-	    	console.error( xhr.responseText);	    	
-	    	console.error(errorThrown);
-	    	console.error(textStatus);	 	
-		 
-	    },
+		{
+			
+			console.error( xhr.status);
+			console.error( xhr.responseText);	    	
+			console.error(errorThrown);
+			console.error(textStatus);	 	
+		
+		},
 		
 		complete: function (data) 
 		{
-			// Instantiate a slider
-			var mySlider = $("#filtroAnyoInicio").bootstrapSlider({
-				ticks: anyos,
-				ticks_labels: anyos,
-				value: anyos[anyos.length-1],
-				min: anyos[0],
-				max: anyos[anyos.length-1],
-				labelledby: anyos
-			});
-			
-			mySlider.on('change',function( sliderValue ) 
+			if(mySlider==undefined)
 			{
-				filtraGraficosInicio(sliderValue.value.newValue);
-			});
+				anyosNumber.sort(function(a, b){return a-b;});
+				anyosString.sort();
 			
-			filtraGraficosInicio(anyos[anyos.length-1]);
-
+				var valorDefecto=anyosString[anyosString.length-1];
+				mySlider = $("#filtroAnyoInicio").bootstrapSlider({
+					ticks: anyosNumber,
+					ticks_labels: anyosString,
+					value: valorDefecto
+				});
+				
+				mySlider.on('change',function( sliderValue ) 
+				{
+					filtraGraficosInicio(sliderValue.value.newValue);
+				});
+				
+				filtraGraficosInicio(valorDefecto);
+				}
+			
 		}
 	});
-	// var jqxhr = $.getJSON().done(function( data ) 
-	// {
-		// for (var i = 0; i < data.records.length; i++) 
-		// {
-			// anyos.push(data.records[i]);
-		// }
-	// }).fail(function( jqxhr, textStatus, error ) 
-	// {
-		// var err = textStatus + ", " + error;
-		// console.log( "Request Failed: " + err );
-	// }).always(function() 
-	// {
-
-		// // Instantiate a slider
-		// var mySlider = $("#filtroAnyoInicio").bootstrapSlider({
-			// ticks: anyos,
-			// ticks_labels: anyos,
-			// value: anyos[anyos.length-1],
-			// min: anyos[0],
-			// max: anyos[anyos.length-1],
-			// labelledby: anyos
-		// });
 		
-		// mySlider.on('change',function( sliderValue ) 
-		// {
-			// filtraGraficosInicio(sliderValue.value.newValue);
-		// });
-		
-		// filtraGraficosInicio(anyos[anyos.length-1]);
 
-	// });
+}
+
+function obtieneOrganizacionesGeneral(url)
+{
+	if(logDebugComun)
+	{
+		console.log("obtieneOrganizacionesGeneral url:"+url);
+	}
+
+	$.getJSON(dameURL(url)).done(function( data ) 
+	{
+		if ((data!=null)&&(data.records!=null)&&(data.records.length>0))
+			{
+				for (var i = 0; i < data.records.length; i++) 
+				{
+					organizacionesIni[data.records[i].id] = data.records[i].title;
+				}
+			}else
+			{
+				console.log( msgErrorAPIResVacio );
+			}
+
+			if ((data!=null)&&(data.next!=null))
+			{
+				obtieneOrganizacionesGeneral(data.next);
+			}
+	}).fail(function( jqxhr, textStatus, error ) 
+	{
+		var err = textStatus + ", " + error;
+		console.log( "Request Failed: " + err );
+	});
+	
+}
+
+function obtieneTitleOrganizaciones(url)
+{
+	if(logDebugComun)
+	{
+		console.log("obtieneOrganizacionesGeneral url:"+url);
+	}
+
+	$.getJSON(dameURL(url)).done(function( data ) 
+	{
+		if ((data!=null)&&(data.title!=null)&&(data.records.length>0))
+		{
+			
+			return data.records[0].title;
+
+		}else
+		{
+			console.log( msgErrorAPIResVacio );
+		}
+	}).fail(function( jqxhr, textStatus, error ) 
+	{
+		var err = textStatus + ", " + error;
+		console.log( "Request Failed: " + err );
+	});
 }
 
 /*
@@ -388,7 +355,7 @@ function cambioCapaInicio()
 	$('#liBeneficiarios').css("background-color", "#fff");
 	$('#buttonBeneficiarios').css("color", "#666");
 	$('#liGlosario').css("background-color", "#fff");
-	$('#buttonGlosario').css("color", "#777");
+	$('#buttonGlosario').css("color", "#666");
 	
 	$('#capaInicio').show();
 	$('#capaSubvenciones').hide();
@@ -414,7 +381,7 @@ function cambioCapaSubvenciones()
 	$('#liBeneficiarios').css("background-color", "#fff");
 	$('#buttonBeneficiarios').css("color", "#666");
 	$('#liGlosario').css("background-color", "#fff");
-	$('#buttonGlosario').css("color", "#777");
+	$('#buttonGlosario').css("color", "#666");
 	
 	$('#capaInicio').hide();
 	$('#capaSubvenciones').show();
@@ -434,13 +401,79 @@ function cambioCapaSubvencionesAreaNombre(areaNombre,anyo)
 		console.log("cambioCapaSubvencionesAreaNombre");
 	}
 	cambioCapaSubvenciones();
-	var url = $('#iframeBusquedaSubvenciones').attr('src');
-	pos = url.search('areaNombre=');
-	if(pos!=-1)
-	{
-		url = url.substring(0,pos);
-	}
+	// var url = $('#iframeBusquedaSubvenciones').attr('src');
+	// var pos = url.search('areaNombre=');
+	// if(pos!=-1)
+	// {
+	// 	url = url.substring(0,pos);
+	// }
+	var url = "busqueda_convocatorias.html?lang="+$.i18n().locale;
 	url = url+'&areaNombre='+areaNombre;
+	url = url+'&anyo='+anyo;
+	$('#iframeBusquedaSubvenciones').attr('src',url);
+}
+
+/* 
+	Función que permite cambiar a la capa de subvenciones filtrando por area y año
+*/
+function cambioCapaSubvencionesConvenio(convenio,anyo)
+{
+	if(logDebugComun)
+	{
+		console.log("cambioCapaSubvencionesConvenio");
+	}
+	cambioCapaSubvenciones();
+	// var url = $('#iframeBusquedaSubvenciones').attr('src');
+	// var pos = url.search('convenio=');
+	// if(pos!=-1)
+	// {
+	// 	url = url.substring(0,pos);
+	// }
+	var url = "busqueda_convocatorias.html?lang="+$.i18n().locale;
+	url = url+'&convenio='+convenio;
+	url = url+'&anyo='+anyo;
+	$('#iframeBusquedaSubvenciones').attr('src',url);
+}
+/* 
+	Función que permite cambiar a la capa de subvenciones filtrando por area y año
+*/
+function cambioCapaSubvencionesServicio(areaNombre,anyo)
+{
+	if(logDebugComun)
+	{
+		console.log("cambioCapaSubvencionesServicio");
+	}
+	cambioCapaSubvenciones();
+	// var url = $('#iframeBusquedaSubvenciones').attr('src');
+	// var pos = url.search('servicio=');
+	// if(pos!=-1)
+	// {
+	// 	url = url.substring(0,pos);
+	// }
+	var url = "busqueda_convocatorias.html?lang="+$.i18n().locale;
+	url = url+'&servicio='+areaNombre;
+	url = url+'&anyo='+anyo;
+	$('#iframeBusquedaSubvenciones').attr('src',url);
+}
+
+/* 
+	Función que permite cambiar a la capa de subvenciones filtrando por area y año
+*/
+function cambioCapaSubvencionesInstrumentaTitle(instrumentaTitle,anyo)
+{
+	if(logDebugComun)
+	{
+		console.log("cambioCapaSubvencionesInstrumentaTitle");
+	}
+	cambioCapaSubvenciones();
+	// var url = $('#iframeBusquedaSubvenciones').attr('src');
+	// var pos = url.search('convenio=');
+	// if(pos!=-1)
+	// {
+	// 	url = url.substring(0,pos);
+	// }
+	var url = "busqueda_convocatorias.html?lang="+$.i18n().locale;
+	url = url+'&convenio='+instrumentaTitle;
 	url = url+'&anyo='+anyo;
 	$('#iframeBusquedaSubvenciones').attr('src',url);
 }
@@ -483,17 +516,63 @@ function cambioCapaBeneficiariosTipo(tipo,anyo)
 	}
 
 	cambioCapaBeneficiarios();
-	var url = $('#iframeBusquedaBeneficiarios').attr('src');
-	pos = url.search('tipo=');
-	if(pos!=-1)
-	{
-		url = url.substring(0,pos);
-	}
+	// var url = $('#iframeBusquedaBeneficiarios').attr('src');
+	// var pos = url.search('tipo=');
+	// if(pos!=-1)
+	// {
+	// 	url = url.substring(0,pos);
+	// }
+	var url = "busqueda_concesiones.html?lang="+$.i18n().locale;
 	url = url+'&tipo='+tipo;
 	url = url+'&anyo='+anyo;
 	$('#iframeBusquedaBeneficiarios').attr('src',url);
 }
 
+/* 
+	Función que permite cambiar a la capa de beneficiarios filtrando por tipo
+*/
+function cambioCapaSubvencionesClasiProg(clasificacionPrograma,anyo)
+{
+	if(logDebugComun)
+	{
+		console.log("cambioCapaSubvencionesClasiProg");
+	}
+
+	cambioCapaSubvenciones();
+	// var url = $('#iframeBusquedaSubvenciones').attr('src');
+	// var pos = url.search('clasificacionPrograma=');
+	// if(pos!=-1)
+	// {
+	// 	url = url.substring(0,pos);
+	// }
+	var url = "busqueda_convocatorias.html?lang="+$.i18n().locale;
+	url = url+'&clasificacionPrograma='+identificadorClasificacionPro.get(clasificacionPrograma)+"*";
+	url = url+'&anyo='+anyo;
+	$('#iframeBusquedaSubvenciones').attr('src',url);
+}
+
+/* 
+	Función que permite cambiar a la capa de beneficiarios filtrando por tipo
+*/
+function cambioCapaSubvencionesClasiEconGast(clasificacionEconGast,anyo)
+{
+	if(logDebugComun)
+	{
+		console.log("cambioCapaSubvencionesClasiEconGast");
+	}
+
+	cambioCapaSubvenciones();
+	// var url = $('#iframeBusquedaSubvenciones').attr('src');
+	// var pos = url.search('clasificacionEconomicaGasto=');
+	// if(pos!=-1)
+	// {
+	// 	url = url.substring(0,pos);
+	// }
+	var url = "busqueda_convocatorias.html?lang="+$.i18n().locale;
+	url = url+'&clasificacionEconomicaGasto='+identificadorClasificacionEco.get(clasificacionEconGast)+"*";
+	url = url+'&anyo='+anyo;
+	$('#iframeBusquedaSubvenciones').attr('src',url);
+}
 /* 
 	Función que permite cambiar a la capa de ayuda 
 */
@@ -590,28 +669,37 @@ function filtraGraficosInicio(filtroAnyo)
 	}
 	
 	var url = "indicadores.html";
-	// url = $('#iframeIndicadores').attr('src');
-	// var pos = url.search('?');
 	url = url +'?anyo='+filtroAnyo+'&lang='+$.i18n().locale;
 	$('#iframeIndicadores').attr('src',url); 
 	
-	var url = "importe_tipo_beneficiarios.html";
-	// url = $('#iframeImporteTipoBeneficiarios').attr('src');
-	// var pos = url.search('?');
+	url = "importe_tipo_beneficiarios.html";
 	url = url +'?anyo='+filtroAnyo+'&lang='+$.i18n().locale;
 	$('#iframeImporteTipoBeneficiarios').attr('src',url); 
 	
-	var url = "gasto_area.html";
-	// url = $('#iframeDepartamentosGastoGlobal').attr('src');
-	// var pos = url.search('?');
+	url = "importe_area.html";
 	url = url +'?anyo='+filtroAnyo+'&lang='+$.i18n().locale;
-	$('#iframeDepartamentosGastoGlobal').attr('src',url); 
+	$('#iframeImporteArea').attr('src',url); 
+
+	url = "importe_servicio.html";
+	url = url +'?anyo='+filtroAnyo+'&lang='+$.i18n().locale;
+	$('#iframeImporteServicio').attr('src',url); 
 	
-	// var url = "importe_meses.html";
-	// url = $('#iframeImporteMeses').attr('src');
-	// var pos = url.search('?');
-	// url = url +'?anyo='+filtroAnyo+'&lang='+$.i18n().locale;
-	// $('#iframeImporteMeses').attr('src',url); 
+	url = "importe_clasificacion_programa.html";
+	url = url +'?anyo='+filtroAnyo+'&lang='+$.i18n().locale;
+	$('#iframeClasificacionPrograma').attr('src',url); 
+
+	url = "importe_clasificacion_economica_gasto.html";
+	url = url +'?anyo='+filtroAnyo+'&lang='+$.i18n().locale;
+	$('#iframeClasificacionEconGast').attr('src',url); 
+
+	url = "convenio.html";
+	url = url +'?anyo='+filtroAnyo+'&lang='+$.i18n().locale;
+	$('#iframeConvenio').attr('src',url);
+
+	url = "gestionado.html";
+	url = url +'?anyo='+filtroAnyo+'&lang='+$.i18n().locale;
+	$('#iframeGestionado').attr('src',url);
+
 }
 
 /*
@@ -642,7 +730,7 @@ function dameURL(URL)
 		$.ajaxSetup({
 			beforeSend: function (xhr)
 			{
-				authorization = sessionStorage.getItem("authorization");
+				var authorization = sessionStorage.getItem("authorization");
 				xhr.setRequestHeader("Accept","application/json");
 			   	xhr.setRequestHeader("Authorization",authorization);        
 			}
@@ -684,7 +772,7 @@ function generarToken()
 			fechaExpiracion = new Date(fechaExpiracion + (timeSeconds * 1000));
 			sessionStorage.setItem("fechaExpiracion", fechaExpiracion);
 			
-			authorization='Bearer '+data.access_token;
+			var authorization='Bearer '+data.access_token;
 			sessionStorage.setItem("authorization", authorization);
 	        
 		},
@@ -703,7 +791,7 @@ function generarToken()
 }
 
 /*
-Función que devuelve el tipo de beneficiario pasando como parámetro el DNI / CIF
+     Función que devuelve el tipo de beneficiario pasando como parámetro el DNI / CIF
 */
 function dameTipoEntidad(dniNif)
 {
@@ -711,190 +799,38 @@ function dameTipoEntidad(dniNif)
 	{
 		console.log("dameTipoEntidad");
 	}
+
+	if(dniNif==undefined)
+	{
+		return '';
+	}
 	
+	var result="";
 	var firstchar = dniNif[0];
-	
-	switch(firstchar) 
+	var secondchar = dniNif[1];
+	if(secondchar==undefined)
 	{
-		case 'A':
-			return "Sociedades anónimas"
-			break;
-		case 'B':
-			return "Sociedades de responsabilidad limitada"
-			break;
-		case 'C':
-			return "Sociedades colectivas"
-			break;
-		case 'D':
-			return "Sociedades comanditarias"
-			break;
-		case 'E':
-			return "Comunidades de bienes, herencias yacentes y demás entidades carentes de personalidad jurídica no incluidas expresamente en otras claves"
-			break;
-		case 'F':
-			return "Sociedades cooperativas"
-			break;
-		case 'G':
-			return "Asociaciones"
-			break;
-		case 'H':
-			return "Comunidades de propietarios en régimen de propiedad horizontal"
-			break;
-		case 'J':
-			return "Sociedades civiles"
-			break;
-		case 'P':
-			return "Corporaciones Locales"
-			break;
-		case 'Q':
-			return "Organismos públicos"
-			break;
-		case 'R':
-			return "Congregaciones e instituciones religiosas"
-			break;
-		case 'S':
-			return "Órganos de la Administración del Estado y de las Comunidades Autónomas"
-			break;
-		case 'U':
-			return "Uniones Temporales de Empresas"
-			break;
-		case 'V':
-			return "Otros tipos no definidos en el resto de claves"
-			break;
-		case 'N':
-			return "Entidades extranjeras"
-			break;
-		case 'W':
-			return "Establecimientos permanentes de entidades no residentes en territorio español"
-			break;
-		default:
-			return "Persona física"
+		secondchar='0';
 	}
+	if(isNaN(firstchar) && !isNaN(secondchar))
+	{
+		result = etiquetasTipoEntidad.get(firstchar);
+	}
+	
+	else{
+		result=etiquetaTipEntPersona;
+	}
+	if(result==undefined)
+	{
+		result=etiquetaTipEntPersona;
+	}
+	return result;
+	
+	
 }
 
 /*
-Función que devuelve el tipo de beneficiario pasando como parámetro el DNI / CIF
-*/
-function dameLetraTipoEntidad(tipo)
-{
-	if(logDebugComun)
-	{
-		console.log("dameLetraTipoEntidad");
-	}
-	
-	switch(tipo) 
-	{
-		case 'Sociedades anónimas':
-			return "A"
-			break;
-		case 'Sociedades de responsabilidad limitada':
-			return "B"
-			break;
-		case 'Sociedades colectivas':
-			return "C"
-			break;
-		case 'Sociedades comanditarias':
-			return "D"
-			break;
-		case 'Comunidades de bienes, herencias yacentes y demás entidades carentes de personalidad jurídica no incluidas expresamente en otras claves':
-			return "E"
-			break;
-		case 'Sociedades cooperativas':
-			return "F"
-			break;
-		case 'Asociaciones':
-			return "G"
-			break;
-		case 'Comunidades de propietarios en régimen de propiedad horizontal':
-			return "H"
-			break;
-		case 'Sociedades civiles':
-			return "J"
-			break;
-		case 'Corporaciones Locales':
-			return "P"
-			break;
-		case 'Organismos públicos':
-			return "Q"
-			break;
-		case 'Congregaciones e instituciones religiosas':
-			return "R"
-			break;
-		case 'Órganos de la Administración del Estado y de las Comunidades Autónomas':
-			return "S"
-			break;
-		case 'Uniones Temporales de Empresas':
-			return "U"
-			break;
-		case 'Otros tipos no definidos en el resto de claves':
-			return "V"
-			break;
-		case 'Entidades extranjeras':
-			return "N"
-			break;
-		case 'Establecimientos permanentes de entidades no residentes en territorio español':
-			return "W"
-			break;
-		default:
-			return ""
-	}
-}
-
-
-/*
-Función que devuelve el tipo de procedimiento
-*/
-function dametipoProcedimiento(tipo)
-{
-
-	if(logDebugComun)
-	{
-		console.log("dametipoProcedimiento");
-	}
-	
-	switch(tipo) 
-	{
-		case 'subvencion-directa':
-			return "Subvención directa";
-		case 'subvencion-nominativa':
-			return "Subvención nominativa";
-		case 'concesion-directa':
-			return "Concesión directa";
-		case 'concurrencia-individualizada':
-			return "Concurrencia individualizada";
-		case 'concurrencia':
-			return "Concurrencia";
-		default:
-			return tipo;
-	}
-
-}
-
-/*
-Función que devuelve Sí o No
-*/
-function dameSiNo(boolean)
-{
-
-	if(logDebugComun)
-	{
-		console.log("dameSiNo");
-	}
-	
-	switch(boolean) 
-	{
-		case 'true':
-			return "Sí"
-			break;
-		case 'false':
-			return "No"
-			break;
-	}
-
-}
-
-/*
-Función que crea un campo de selección para los formularios que tienen tipo de beneficiario
+	Función que crea un campo de selección para los formularios que tienen tipo de beneficiario
 */
 function creaSelectTipoEntidad()
 {
@@ -924,19 +860,19 @@ function creaSelectTipoEntidad()
 }
 
 /*
-Funcion para obtener parametros de la URL
+	Funcion para obtener parametros de la URL
 */
 function getUrlVars() 
 {
     var vars = {};
-    var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
+    window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
         vars[key] = value;
     });
     return vars;
 }
 
 /*
-Funcion que chequea si un array de booleans esta entero a true
+	Funcion que chequea si un array de booleans esta entero a true
 */
 function checkBooleanArray(vector)
 {
@@ -952,7 +888,7 @@ function checkBooleanArray(vector)
 }
 
 /*
-Funcion que chequea el objecto taskMaster
+	Funcion que chequea el objecto taskMaster
 */	
 function checkTaskMaster()
 {	
@@ -966,7 +902,12 @@ function checkTaskMaster()
 		return false;
 	}
 
-	if (taskMaster.iframeDepartamentosGastoGlobal==false)
+	if (taskMaster.iframeImporteArea==false)
+	{
+		return false;
+	}
+
+	if (taskMaster.iframeImporteServicio==false)
 	{
 		return false;
 	}
@@ -986,22 +927,39 @@ function checkTaskMaster()
 		return false;
 	}
 
+	if (taskMaster.iframeClasificacionPrograma==false)
+	{
+		return false;
+	}
+
+	if (taskMaster.iframeClasificacionEconomicaGasto==false)
+	{
+		return false;
+	}
+	
 	setTimeout(function(){ cargaTerminada(); }, 500);				
 }
 	
 /*
-Funcion que se invoca cuando se han terminado todas las llamadas ajax desde la funcion checkTaskMaster
+	Funcion que se invoca cuando se han terminado todas las llamadas ajax desde la funcion checkTaskMaster
 */	
 function cargaTerminada()
 {		
-	$("#iframeDepartamentosGastoGlobal").height(heightImporteMeses+120);
-	$("#iframeImporteTipoBeneficiarios").height(heightTipoBeneficiario+170);
-	$("#iframeIndicadoresGlobales").height(heightIndicadoresGlobal+170);
+	$("#iframeIndicadoresGlobales").height(heightIndicadoresGlobal);
+	$("#iframeIndicadores").height(heighIndicadores);
+	$("#iframeImporteArea").height(heightImporteArea);
+	$("#iframeImporteServicio").height(heightImporteServicio);
+	$("#iframeImporteTipoBeneficiarios").height(heightTipoBeneficiario);
+	$("#iframeClasificacionPrograma").height(heightClasificacionPrograma);
+	$("#iframeClasificacionEconGast").height(heightClasificacionEconGast);
+	$("#iframeConvenio").height(heightConvenios);
+	$("#iframeGestionado").height(heightGestionado);
+	
 	$('.modal').modal('hide');
 }	
 	
 /*
-Funcion que modifica un attributo del objeto taskmaster del padre (si existe)
+	Funcion que modifica un attributo del objeto taskmaster del padre (si existe)
 */	
 function modificaTaskMaster(attr)
 {
@@ -1032,10 +990,10 @@ function inIframe () {
 /*
 	Función que calcula el porcentaje de un numero
 */
-function porcentaje(numero, porcentaje)
+function porcentaje(numero, porciento)
 {
-	var p=Math.floor(numero*porcentaje)/100;
-	p=Math.round(p)
+	var p=Math.floor(numero*porciento)/100;
+	p=Math.round(p);
 	return p;
 }
 
@@ -1046,3 +1004,4 @@ function scrollTop()
 {
 	window.scrollTo(0, 0); 
 }
+

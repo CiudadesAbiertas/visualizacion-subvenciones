@@ -14,10 +14,8 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the Licence for the specific language governing permissions and limitations under the Licence.
 */
 
-/*
-Algunas variables que se usan en este javascript se inicializan en ciudadesAbiertas.js
-*/
-var anyo=undefined;
+var anyo;
+var urlFiltroAnyo="";
 
 /*
 	Función de inicialización del script
@@ -49,7 +47,7 @@ function inicializaMultidiomaImporteTipo()
 	}
 	$.i18n().locale = langUrl;
 	document.documentElement.lang=$.i18n().locale;
-	$('html').i18n()
+	$('html').i18n();
 	
 	var iframe1 = '<iframe class="embed-responsive-item" src="';
 	var iframe2 = '" frameborder="0" scrolling="no" height="500" width="100%"></iframe>';
@@ -66,7 +64,6 @@ function inicializaMultidiomaImporteTipo()
 		{
 			$('html').i18n();
 			inicializaDatosImporteTipo();
-			insertaURLSAPI();
 		});
 	});
 	
@@ -89,10 +86,10 @@ function inicializaDatosImporteTipo()
 	{
 		anyo='2018';
 	}
-	var urlFiltroAnyo="";
+	
 	if(anyo!=undefined && anyo!='Todos')
 	{
-		urlFiltroAnyo="&"+paramWhereAPI+"=fechaAdjudicacion>='"+anyo+"-01-01T00:00:00' and fechaAdjudicacion<='"+anyo+"-12-31T23:59:59'";
+		urlFiltroAnyo="&"+paramWhereAPI+"=fechaConcesion>='"+anyo+"-01-01T00:00:00' and fechaConcesion<='"+anyo+"-12-31T23:59:59'";
 	}
 	
 	var texto = $.i18n( 'suma_importe_tipo_beneficiario' );
@@ -109,8 +106,8 @@ function inicializaDatosImporteTipo()
 			
 			for (var i = 0; i < data.records.length; i++) 
 			{
-				var tipo=dameTipoEntidad(data.records[i][0].toString());
-				var importe=data.records[i][1];
+				var tipo=dameTipoEntidad(data.records[i].tipo.toString());
+				var importe=data.records[i].suma;
 				if(tipo=='Persona física')
 				{
 					importePersonasFisicas = Number(importe) + Number(importePersonasFisicas);
@@ -118,7 +115,8 @@ function inicializaDatosImporteTipo()
 				}else
 				{
 					importeTipo=new Object();
-					importeTipo.tipo=tipo;
+					importeTipo.tipo=tipo.substring(0, limiteCadenasTexto);
+					importeTipo.tipoCompl=tipo;
 					importeTipo.importe=importe;
 					importeTipos.push(importeTipo);
 				}
@@ -130,7 +128,7 @@ function inicializaDatosImporteTipo()
 			importeTipo.importe=importePersonasFisicas;
 			importeTipos.push(importeTipo);
 
-			importeTipos.sort(function(a, b){return b.importe-a.importe});
+			importeTipos.sort(function(a, b){return b.importe-a.importe;});
 
 			var tipoBeneficiarioCadena=$.i18n( 'tipo_beneficiario' );
 			var importeCadena=$.i18n( 'importe' );
@@ -141,7 +139,8 @@ function inicializaDatosImporteTipo()
 				importe=numeral(importe);
 				htmlContent = htmlContent + "<tr>" + "<td>" + tipo + "</td>" + "<td>" + importe.format(numFormato) + "</td>" + "</tr>";
 			}
-			htmlContent = htmlContent + "</table><button id='mostarDatos' type='button' class='btn btn-link' onclick=\"mostrarDatos()\">Mostar/Ocultar datos</button></div></div>";
+			var mensaje_mostar_ocultar_datos =  $.i18n( 'mostar_ocultar_datos' );
+			htmlContent = htmlContent + "</table><button id='mostarDatos' type='button' class='btn btn-link' onclick=\"mostrarDatos()\">"+mensaje_mostar_ocultar_datos+"</button></div></div>";
 			$('#datos_ImpTipBen').html(htmlContent);
 		}else
 		{
@@ -153,6 +152,7 @@ function inicializaDatosImporteTipo()
 			console.log( "Request Failed: " + err );
 	}).always(function() 
 	{
+		insertaURLSAPI();
 		pintaImporteTipo(importeTipos);
 		modificaTaskMaster("iframeImporteTipoBeneficiarios");		
 	});
@@ -167,10 +167,14 @@ function insertaURLSAPI()
 	{
 		console.log("insertaURLSAPI");
 	}
-	$('#urlAPIImpTipBen').attr("href", queryGraficoImporteTipoBeneficiarios);
-	$('#descargaImpTipBenCSV').attr("href", queryGraficoImporteTipoBeneficiariosCSV);
-	$('#descargaImpTipBenJSON').attr("href", queryGraficoImporteTipoBeneficiarios);
-	$('#urlAPIDoc').attr("href", docAPI);
+	if (!inIframe())
+	{
+		$('#urlMax').hide();
+	}
+	$('#urlAPIImpTipBen').attr("href", queryGraficoImporteTipoBeneficiarios+urlFiltroAnyo);
+	$('#descargaImpTipBenCSV').attr("href", queryGraficoImporteTipoBeneficiariosCSV+urlFiltroAnyo);
+	$('#descargaImpTipBenJSON').attr("href", queryGraficoImporteTipoBeneficiarios+urlFiltroAnyo);
+	$('#urlAPIDoc').attr("href", docAPIConcesion);
 	$('#urlMax').attr("href", window.location.href);
 	$('#urlMax').attr("target", '_blank');
 	
@@ -186,24 +190,23 @@ function pintaImporteTipo(importeTipos)
 		console.log("pintaImporteTipo");
 	}
 	
-	var chart = am4core.create("chartImporteTipo", am4charts.TreeMap);
-	chart.layoutAlgorithm = chart.binaryTree;
+	am4core.useTheme(am4themes_frozen);
+	am4core.useTheme(am4themes_animated);
+
+	var chart = am4core.create("chartdiv", am4charts.TreeMap);
 	chart.data = importeTipos;
-	chart.dataFields.value = "importe";
-	chart.dataFields.name = "tipo";
 	chart.language.locale._decimalSeparator= ",";
 	chart.language.locale._thousandSeparator= ".";
-	chart.fontSize = 14;
-	
-	chart.colors.list = [
-	  am4core.color("#006AA0")
-	];
+	chart.layoutAlgorithm = chart.squarify;
+
+	chart.dataFields.value = "importe";
+	chart.dataFields.name = "tipo";
 	
 	var level1 = chart.seriesTemplates.create("0");
 	var level1_column = level1.columns.template;
 	level1_column.events.on("hit", function(ev) 
 	{
-		var paramTipo = ev.target.dataItem.dataContext.dataContext.tipo;
+		var paramTipo = ev.target.dataItem.dataContext.dataContext.tipoCompl;
 		
 		if(window.self!=window.top)
 		{
@@ -212,38 +215,56 @@ function pintaImporteTipo(importeTipos)
 		}else
 		{
 			console.log('Ejecutar enlace');
-			var url = "busqueda_beneficiarios.html?lang="+$.i18n().locale
+			var url = "busqueda_concesiones.html?lang="+$.i18n().locale;
 			url=url+"&tipo="+paramTipo+"&anyo="+anyo;
 			window.open(url,'_blank');
 		}
 	}, this);
+	
 	level1_column.column.cornerRadius(10, 10, 10, 10);
 	level1_column.fillOpacity = 0.8;
 	level1_column.stroke = am4core.color("#fff");
 	level1_column.strokeWidth = 5;
 	level1_column.strokeOpacity = 1;
-	level1_column.properties.tooltipText= "{parentName} {name}: {value} €";
+	level1_column.properties.tooltipText= "{name}: {value} €";
 	
 	var level1_bullet = level1.bullets.push(new am4charts.LabelBullet());
 	level1_bullet.locationY = 0.5;
 	level1_bullet.locationX = 0.5;
 	level1_bullet.label.text = "{name}\n{value}€";
-	level1_bullet.label.fill = am4core.color("#fff");
-	level1_bullet.width = 100;
+	level1_bullet.label.fill = am4core.color("#222");
 	level1_bullet.label.truncate = false;
-	level1_bullet.label.wrap  = true;	
 
-	if (inIframe())
-	{	
-		$("#chartImporteTipo").height(parent.heightTipoBeneficiario);		
-	}
-	else
-	{		
-		var h = window.innerHeight;
-		h=h-($(".panel-heading").height()*4);		
-		var p=porcentaje(h,93);
-		$("#chartImporteTipo").height(p);
-	}
+	level1_bullet.label.padding(4,10,4,10);
+	level1_bullet.label.fontSize = 20;
+	level1_bullet.layout = "absolute";
+	level1_bullet.label.isMeasured = true;
+
+	level1_bullet.events.on("ready", function(event){
+		let target = event.target;
+		if (target.parent) {
+		  var pw = target.maxWidth;
+		  var ph = target.maxHeight;
+	  
+		  let label = target.children.getIndex(0)
+		  var tw = label.measuredWidth;
+		  var th = label.measuredHeight;
+	  
+		  let scale = Math.min(pw / tw, ph / th);
+	  
+		  if (!isNaN(scale) && scale != Infinity) {
+			  if(scale>limiteAgrandarTextosTreemap)
+			  {
+				scale=limiteAgrandarTextosTreemap;
+			  }
+			target.scale = scale;
+		  }
+		  if(scale<limiteOcultarTextosTreemap)
+		  {
+			target.disabled = true;
+		  }
+		}
+	  })
 
 }
 

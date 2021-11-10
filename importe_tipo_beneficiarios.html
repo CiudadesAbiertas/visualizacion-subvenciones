@@ -25,13 +25,13 @@ See the Licence for the specific language governing permissions and limitations 
 		<meta name="author" content="">
 		<title data-i18n="suma_importe_tipo_beneficiario"></title>
 		<!--Favicon-->
-		<link rel="shortcut icon" type="image/x-icon" href="dist/images/favicon.ico" >
+		<link rel="shortcut icon" type="image/x-icon" href="../comun/dist/images/favicon.ico" >
 		
 		<!-- Bootstrap Core CSS -->
 		<link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 		
 		<!-- JQUERY UI CSS -->
-		<link  href="vendor/jquery-ui/jquery-ui.css" rel="stylesheet">
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js" integrity="sha512-uto9mlQzrs59VwILcLiRYeLKPPbS/bT71da/OEBYEwcdNUk8jYIy+D176RYoop1Da+f9mvkYrmj5MCLZWEtQuA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 		
 		<!-- DATATABLES CSS -->
 			<!-- DataTables CSS -->
@@ -40,186 +40,167 @@ See the Licence for the specific language governing permissions and limitations 
 		<!-- DataTables Responsive CSS -->
 		<link href="vendor/datatables-responsive/dataTables.responsive.css" rel="stylesheet">
 		
-		<link href="vendor/bootstrap-slider/css/bootstrap-slider.css" rel="stylesheet">
+		<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.6.1/css/bootstrap-slider.css" rel="stylesheet">
 
 		<!-- Custom Fonts -->
 		<link href="vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 		
-		<!-- Hoja de estilos internos -->
-		<link href="dist/css/ciudadesAbiertas.css" rel="stylesheet" type="text/css">
-		<link rel="stylesheet" href="dist/css/subvenciones.css?v=2">
-	
-		<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-		<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-		<!--[if lt IE 9]>
-			<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-			<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-		<![endif]-->
+		<!-- Hojas de estilos internos -->
+		<link rel="stylesheet" href="../comun/dist/css/main.css">
+		<link rel="stylesheet" href="../comun/dist/css/ciudadesAbiertas.css">
+		<link rel="stylesheet" href="dist/css/subvenciones.css">
+		<link rel="stylesheet" href="dist/css/custom.css">
+
 	</head>
 
-<body>
-	<div class="container-fluid">
-		<div class="row">
-			<div class="panel panel-default">
-				<div class="panel-heading">
-					<div class="row">
-						<div class="col-md-7 col-xs-7">
-							<i class="fa fa-bar-chart-o fa-fw"></i> <span id="textoCabeceraImpTipBen" data-i18n="suma_importe_tipo_beneficiario">Suma importe tipo beneficiario</span>
-						</div>
-						<div class="col-md-5 col-xs-5">
-							<div class="pull-right">
-								<a href="#" data-toggle="modal" data-target="#modal_info"><i class="fa fa-info-circle" style="font-size:24px;color:#337ab7"></i></a>
-								<div class="btn-group">
-									<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" data-i18n="acciones">
-										<span class="caret"></span>
-									</button>
-									<ul class="dropdown-menu pull-right" role="menu">
-										<li>
-											<a id="urlMax" href="#" data-i18n="maximizar">maximizar</a>
-										</li>
-										<li>
-											<a href="#" data-toggle="modal" data-target="#myModalDepartamentos" data-i18n="incrustar"></a>
-										</li>
-										<li>
-											<a id="urlAPIImpTipBen" href="#" target="_blank" data-i18n="url_utilizada_grafico"></a>
-										</li>
-										<li>
-											<a id="descargaImpTipBenCSV" href="#" target="_blank" data-i18n="descarga_csv"></a>
-										</li>
-										<li>
-											<a id="descargaImpTipBenJSON" href="#" target="_blank" data-i18n="descarga_json"></a>
-										</li>
-										<li>
-											<a id="urlAPIDoc" href="" target="_blank" data-i18n="documentacion_api"></a>
-										</li>
-									</ul>
-								</div>
-								<!-- /.btn-group -->
-								<div class="modal fade" id="myModalDepartamentos" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-								  <div class="modal-dialog">
-									<div class="modal-content">
-									  <div class="modal-header">
-										<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-										<p class="modal-title" id="myModalLabel" data-i18n="incrustar_suma_importe_tipo_beneficiario"></p>
-									  </div>
+	<body>
+		<div class="container-fluid">
+			<div class="row">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<div class="row">
+							<div class="col-md-7 col-xs-7">
+								<i class="fa fa-bar-chart-o fa-fw"></i> <span id="textoCabeceraImpTipBen" data-i18n="suma_importe_tipo_beneficiario">Suma importe tipo beneficiario</span>
+							</div>
+							<div class="col-md-5 col-xs-5">
+								<div class="pull-right">
+									<a href="#" data-toggle="modal" data-target="#modal_info" aria-label="Información"><i class="fa fa-info-circle" style="font-size:24px;color:#337ab7"></i></a>
+									<div class="btn-group">
+										<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" data-i18n="acciones">
+											<span class="caret"></span>
+										</button>
+										<ul class="dropdown-menu pull-right" role="menu">
+											<li role="menuitem">
+												<a id="urlMax" href="#" data-i18n="maximizar">maximizar</a>
+											</li>
+											<li role="menuitem">
+												<a href="#" data-toggle="modal" data-target="#myModalDepartamentos" data-i18n="incrustar"></a>
+											</li>
+											<li role="menuitem">
+												<a id="urlAPIImpTipBen" href="#" target="_blank" data-i18n="url_utilizada_grafico"></a>
+											</li>
+											<li role="menuitem">
+												<a id="descargaImpTipBenCSV" href="#" target="_blank" data-i18n="descarga_csv"></a>
+											</li>
+											<li role="menuitem">
+												<a id="descargaImpTipBenJSON" href="#" target="_blank" data-i18n="descarga_json"></a>
+											</li>
+											<li role="menuitem">
+												<a id="urlAPIDoc" href="" target="_blank" data-i18n="documentacion_api"></a>
+											</li>
+										</ul>
+									</div>
+									<div class="modal fade" id="myModalDepartamentos" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+									  <div class="modal-dialog">
+										<div class="modal-content">
+										  <div class="modal-header">
+											<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+											<p class="modal-title" id="myModalLabel" data-i18n="incrustar"></p>
+										  </div>
 
-									  <div class="modal-body">
-										<div class="form-group">
-											<p class="embed-content" data-i18n="puede_copiar_pegar_codigo_insercion_cms_blog_soporte_html_crudo"></p>
-											<label class="control-label" for="code" data-i18n="codigo"></label><br/>
-											<textarea id="code" class="form-control" name="code" rows="3" placeholder="">
-												<iframe class="embed-responsive-item" id="iframe_importe_tipo_beneficiario" src="importe_tipo_beneficiarios.html" frameborder="0" scrolling="no" height="500" width="100%"></iframe>
-											</textarea>
+										  <div class="modal-body">
+											<div class="form-group">
+												<p class="embed-content" data-i18n="puede_copiar_pegar_codigo_insercion_cms_blog_soporte_html_crudo"></p>
+												<label class="control-label" for="code" data-i18n="codigo"></label><br/>
+												<textarea id="code" class="form-control" name="code" rows="3" placeholder="">
+													<iframe class="embed-responsive-item" id="iframe_importe_tipo_beneficiario" src="importe_tipo_beneficiarios.html" frameborder="0" scrolling="no" height="500" width="100%"></iframe>
+												</textarea>
+											</div>
+										  </div>
 										</div>
 									  </div>
 									</div>
-								  </div>
 								</div>
-								<!-- /.modal -->
 							</div>
-							<!-- /.pull-right -->
 						</div>
 					</div>
-					<!-- /.row -->
+					<div class="panel-body">
+						<div id="chartdiv" class="chart350"></div>
+						<p data-i18n="informacion_corta_impTipBene">Gráfico elaborado agrupando por tipo de beneficiario y sumando el importe</p>
+					</div> 
+					<div class="panel-footer">
+						<button id="mostarDatos" type="button" class="btn btn-link" onclick="mostrarDatos()" data-i18n="mostar_ocultar_datos">Mostrar/Ocultar datos</button>
+						<div id="datos_ImpTipBen" style="display:none;width:100%"></div>
+					</div>       
+				</div> 
+				
+				<!-- Modal -->
+				<div class="modal fade" id="modal_info" role="dialog">
+				  <div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<p class="modal-title" id="modalLabelInf" data-i18n="informacion">Información</p>
+						</div>
+						<div class="modal-body">
+							<p data-i18n="informacion_larga_impTipBene_1">Este gráfico ha sido elaborado sumando los importes y agrupando las subvenciones por tipo de beneficiario.<p>
+							<p><span data-i18n="informacion_larga_impTipBene_2"></span><a href="https://www.agenciatributaria.es/AEAT.internet/Inicio/La_Agencia_Tributaria/Campanas/Censos__NIF_y_domicilio_fiscal/Empresas_y_profesionales__Declaracion_censal__Modelos_036_y_037/Informacion/NIF_de_personas_juridicas_y_entidades.shtml" target="_blank"><span data-i18n="aqui">"aqui"</span></a></p>
+						</div>
+						<div class="modal-footer">
+						  <button type="button" class="btn btn-default" data-dismiss="modal" data-i18n="cerrar">Cerrar</button>
+						</div>
+					</div>
+				  </div>
 				</div>
-				<!-- /.panel-heading -->
-				<div class="panel-body">
-					<div class="chartwrapperTree">
-						<div id="chartImporteTipo" class="chartdivTree"></div>
-					</div>   
-					<p data-i18n="informacion_corta_impTipBene">Gráfico elaborado agrupando por tipo de beneficiario y sumando el importe</p>
-					<button id="mostarDatos" type="button" class="btn btn-link" onclick="mostrarDatos()">Mostar/Ocultar datos</button>
-					<div id="datos_ImpTipBen" style="display:none;width:100%"></div>
-				</div>        
-				<!-- /.panel-body -->
-			</div> 
-			
-			<!-- Modal -->
-			<div class="modal fade" id="modal_info" role="dialog">
-			  <div class="modal-dialog">
-				 <!-- Modal content-->
-				<div class="modal-content">
-					<div class="modal-header">
-						<!-- <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button> -->
-						<p class="modal-title" id="modalLabelInf" data-i18n="informacion">Información</p>
-					</div>
-
-					<div class="modal-body">
-						<p data-i18n="informacion_larga_impTipBene_1">Este gráfico ha sido elaborado sumando los importes y agrupando las subvenciones por tipo de beneficiario.<p>
-						<p><span data-i18n="informacion_larga_impTipBene_2"></span><a href="https://www.agenciatributaria.es/AEAT.internet/Inicio/La_Agencia_Tributaria/Campanas/Censos__NIF_y_domicilio_fiscal/Empresas_y_profesionales__Declaracion_censal__Modelos_036_y_037/Informacion/NIF_de_personas_juridicas_y_entidades.shtml" target="_blank"><span data-i18n="aqui">"aqui"</span></a></p>
-					</div>
-					
-					<div class="modal-footer">
-					  <button type="button" class="btn btn-default" data-dismiss="modal" data-i18n="cerrar">Cerrar</button>
-					</div>
-				</div>
-			  </div>
 			</div>
-			<!-- /.modal -->
 		</div>
-		<!-- /.row -->
-	</div>
 	
 	
-	 <!-- jQuery -->
-    <script src="vendor/jquery/jquery.min.js"></script>
-	
-    <!-- Bootstrap Core JavaScript -->
-    <script src="vendor/bootstrap/js/bootstrap.min.js"></script>  
+		<!-- jQuery -->
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+		
+		<!-- Bootstrap Core JavaScript -->
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+        integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+        crossorigin="anonymous"></script>  
 
-    <!-- DataTables JavaScript -->
-    <script src="vendor/datatables/js/jquery.dataTables.min.js"></script>
-    <script src="vendor/datatables-plugins/dataTables.bootstrap.min.js"></script>
-    <script src="vendor/datatables-responsive/dataTables.responsive.js"></script>
-	
-	
-	<script src="vendor/datatables-export/dataTables.buttons.min.js" type="text/javascript"></script>
-    <script src="vendor/datatables-export/jszip.min.js" type="text/javascript"></script>
-    <script src="vendor/datatables-export/pdfmake.min.js" type="text/javascript"></script>
-    <script src="vendor/datatables-export/vfs_fonts.js" type="text/javascript"></script>
-    <script src="vendor/datatables-export/buttons.html5.min.js" type="text/javascript"></script>
+		<!-- DataTables JavaScript -->
+		<script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+		<script src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap.min.js" type="text/javascript"></script>
+		<script src="https://cdn.datatables.net/responsive/1.0.6/js/dataTables.responsive.js"></script>
+		<script src="https://cdn.datatables.net/buttons/1.7.1/js/dataTables.buttons.min.js" type="text/javascript"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js" type="text/javascript"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js" type="text/javascript"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js" type="text/javascript"></script>
+		<script src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.html5.min.js" type="text/javascript"></script>
+    <script src="https://cdn.datatables.net/colreorder/1.5.4/js/dataTables.colReorder.min.js"
+        type="text/javascript"></script>
+    <script src="https://cdn.datatables.net/buttons/1.7.1/js/buttons.colVis.min.js" type="text/javascript"></script>
 
-       	
-	 <!-- jQuery UI-->
-	<script src="vendor/jquery-ui/jquery-ui.js"></script>
-	<script src="vendor/jquery-ui/datepickerEs.js"></script>
-	
-	<script src="vendor/bootstrap-slider/bootstrap-slider.js"></script>
-	
-	 <!-- amcharts Visualizations-->
-	<script src="vendor/amcharts/amcharts.js" type="text/javascript"></script>
-    <script src="vendor/amcharts/serial.js" type="text/javascript"></script>
-	<script src="vendor/amcharts/pie.js" type="text/javascript"></script>
-	
-	<script src="vendor/amcharts4/core.js"></script>
-	<script src="vendor/amcharts4/charts.js"></script>
-	
-	
-	<script src="vendor/numeral/numeral.min.js"></script>
-	
-	<script src="vendor/datejs/date-es-ES.js"></script>
-	
-	<!-- Multiidoma -->	
-	<script src="vendor/CLDRPluralRuleParser/CLDRPluralRuleParser.js"></script>
-	<script src="vendor/jquery.i18n/jquery.i18n.js"></script>
-	<script src="vendor/jquery.i18n/jquery.i18n.messagestore.js"></script>
-	<script src="vendor/jquery.i18n/jquery.i18n.fallbacks.js"></script>
-	<script src="vendor/jquery.i18n/jquery.i18n.language.js"></script>
-	<script src="vendor/jquery.i18n/jquery.i18n.parser.js"></script>
-	<script src="vendor/jquery.i18n/jquery.i18n.emitter.js"></script>
-	<script src="vendor/jquery.i18n/jquery.i18n.emitter.bidi.js"></script>
-	
-	<script src="dist/js/constantes.js"></script>
-	<script src="dist/js/general.js"></script>
-	<script src="dist/js/importe_tipo_beneficiarios.js"></script>
-	
-	<script>
-	
-	$(document).ready(function() {
-		initComun();
-		inicializaImporteTipo();
-	} );
-	</script>
-</body>
+		 <!-- jQuery UI-->
+		<script src="vendor/jquery-ui/jquery-ui.js"></script>
+		<script src="vendor/jquery-ui/datepickerEs.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/11.0.2/bootstrap-slider.js" integrity="sha512-tCkLWlSXiiMsUaDl5+8bqwpGXXh0zZsgzX6pB9IQCZH+8iwXRYfcCpdxl/owoM6U4ap7QZDW4kw7djQUiQ4G2A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>>
+		
+		<!-- Amcharts Visualizations-->
+		<script src="https://cdn.amcharts.com/lib/4/core.js"></script>
+    <script src="https://cdn.amcharts.com/lib/4/charts.js"></script>
+    <script src="https://cdn.amcharts.com/lib/version/4.10.19/themes/frozen.js"></script>
+    <script src="https://cdn.amcharts.com/lib/version/4.10.19/themes/animated.js"></script>
+    <script src="https://cdn.amcharts.com/lib/version/4.10.19/lang/es_ES.js"></script>
+
+		<!-- Normalización de datos -->
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/numeral.js/2.0.6/numeral.min.js"></script>
+		<script src="vendor/datejs/date-es-ES.js"></script>
+		
+		<!-- Multiidoma -->	
+		<script src="vendor/CLDRPluralRuleParser/CLDRPluralRuleParser.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.i18n/1.0.7/jquery.i18n.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.i18n/1.0.7/jquery.i18n.messagestore.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.i18n/1.0.7/jquery.i18n.fallbacks.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.i18n/1.0.7/jquery.i18n.language.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.i18n/1.0.7/jquery.i18n.parser.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.i18n/1.0.7/jquery.i18n.emitter.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.i18n/1.0.7/jquery.i18n.emitter.bidi.min.js"></script>
+		<script src="dist/js/constantes.js"></script>
+		<script src="dist/js/general.js"></script>
+		<script src="dist/js/importe_tipo_beneficiarios.js"></script>
+		
+		<script>
+			$(document).ready(function() {
+				initComun();
+				inicializaImporteTipo();
+			} );
+		</script>
+	</body>
 
 </html>

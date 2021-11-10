@@ -14,10 +14,10 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the Licence for the specific language governing permissions and limitations under the Licence.
 */
 
-/*
-	Algunas variables que se usan en este javascript se inicializan en ciudadesAbiertas.js
-*/
 var anyo = 2018;
+var peticiones = [false,false,false];	
+var urlFiltroAnyoConvocatoria="";
+var urlFiltroAnyoBeneficiario="";
 
 /*
 	Función de inicialización del script
@@ -83,32 +83,34 @@ function inicializaDatosIndicadores()
 	{
 		console.log("inicializaDatosIndicadores");
 	}
-	var peticiones = [false,false,false];	
-	var anyo = getUrlVars()["anyo"];
+	
+	anyo = getUrlVars()["anyo"];
 	if(anyo==undefined)
 	{
 		anyo='2018';
 	}
-	var urlFiltroAnyo="";
+	
 	if(anyo!=undefined && anyo!='Todos')
 	{
-		urlFiltroAnyo="&"+paramWhereAPI+"=fechaAdjudicacion>='"+anyo+"-01-01T00:00:00' and fechaAdjudicacion<='"+anyo+"-12-31T23:59:59'";
+		urlFiltroAnyoConvocatoria="&"+paramQAPI+"=fechaAcuerdo>='"+anyo+"-01-01T00:00:00' and fechaAcuerdo<='"+anyo+"-12-31T23:59:59'";
+	}
+	if(anyo!=undefined && anyo!='Todos')
+	{
+		urlFiltroAnyoBeneficiario="&"+paramWhereAPI+"=fechaConcesion>='"+anyo+"-01-01T00:00:00' and fechaConcesion<='"+anyo+"-12-31T23:59:59'";
 	}
 	
 	var texto = $.i18n( 'indicadores' );
 	$('#textoCabeceraIndicadores').html(texto+' '+anyo);
 	
-	var jqxhr = $.getJSON(dameURL(queryIndicadorSubvenciones+urlFiltroAnyo)).done(function( data ) 
+	$.getJSON(dameURL(queryIndicadorConcesiones+urlFiltroAnyoConvocatoria)).done(function( data ) 
 	{
 		if ((data!=null)&&(data.records!=null)&&(data.records.length>0))
 		{
 			var valor=0;
-			for(var h = 0; h < data.records.length; h++){
-				valor=valor+Number(data.records[h]);
-			}
+			valor = Number(data.totalRecords);
 
 			var nSubvenciones=numeral(valor);
-			$("#numSubvenciones").html(nSubvenciones.format());
+			$("#numConcesiones").html(nSubvenciones.format());
 		}else
 		{
 			console.log( msgErrorAPIResVacio );
@@ -130,14 +132,12 @@ function inicializaDatosIndicadores()
 		}
 	});
 	
-	var jqxhr = $.getJSON(dameURL(queryIndicadorBeneficiarios+urlFiltroAnyo)).done(function( data ) 
+	var jqxhr = $.getJSON(dameURL(queryIndicadorBeneficiarios+urlFiltroAnyoBeneficiario)).done(function( data ) 
 	{
 		if ((data!=null)&&(data.records!=null)&&(data.records.length>0))
 		{
 			var valor=0;
-			for(var h = 0; h < data.records.length; h++){
-				valor=valor+Number(data.records[h]);
-			}
+			valor = Number(data.totalRecords);
 
 			var nAdjudicatarios=numeral(valor);
 			$("#numAdjudicatarios").html(nAdjudicatarios.format());
@@ -162,16 +162,41 @@ function inicializaDatosIndicadores()
 		}
 	});
 	
-	var jqxhr = $.getJSON(dameURL(queryIndicadorImporteTotal+urlFiltroAnyo)).done(function( data ) 
+	obtieneImporteTotal(queryIndicadorImporteTotal+urlFiltroAnyoBeneficiario);
+	
+	try
+	{
+		$('#iframeIndicadores', window.parent.document).height($( document ).height());
+	}
+	catch (error)
+	{
+	}
+}
+
+function obtieneIndicadorSubvenciones(url)
+{
+	
+}
+
+
+var valorImporteTotal=0;
+var sImporteTotal;
+function obtieneImporteTotal(url)
+{
+	var jqxhr = $.getJSON(dameURL(url)).done(function( data ) 
 	{
 		if ((data!=null)&&(data.records!=null)&&(data.records.length>0))
 		{
-			var valor=0;
 			for(var h = 0; h < data.records.length; h++){
-				valor=valor+Number(data.records[h]);
+				valorImporteTotal=valorImporteTotal+Number(data.records[h].suma);
 			}
 
-			var sImporteTotal=numeral(valor);
+			if(data.next!=undefined)
+			{
+				obtieneImporteTotal(data.next);
+			}
+
+			sImporteTotal=numeral(valorImporteTotal);
 			$("#sumImporte").html(sImporteTotal.format(importeFormatoSinDecimales,Math.ceil));
 		}else
 		{
@@ -192,15 +217,7 @@ function inicializaDatosIndicadores()
 		{
 			modificaTaskMaster("iframeIndicadores");
 		}
-	});
-	
-	try
-	{
-		$('#iframeIndicadores', window.parent.document).height($( document ).height());
-	}
-	catch (error)
-	{
-	}
+	});	
 }
 
 /*
@@ -212,8 +229,9 @@ function insertaURLSAPI()
 	{
 		console.log("insertaURLSAPI");
 	}
-	$('#urlAPIIndSub').attr("href", queryIndicadorSubvenciones);
-	$('#urlAPIIndBen').attr("href", queryIndicadorBeneficiarios);
-	$('#urlAPIIndImpTot').attr("href", queryIndicadorImporteTotal);
-	$('#urlAPIDoc').attr("href", docAPI);
+	
+	$('#urlAPIIndSub').attr("href", queryIndicadorConcesiones+urlFiltroAnyoConvocatoria);
+	$('#urlAPIIndBen').attr("href", queryIndicadorBeneficiarios+urlFiltroAnyoBeneficiario);
+	$('#urlAPIIndImpTot').attr("href", queryIndicadorImporteTotal+urlFiltroAnyoBeneficiario);
+	$('#urlAPIDoc').attr("href", docAPIConcesion);
 }
