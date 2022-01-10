@@ -249,53 +249,69 @@ function pintaIndicadoresGlobales(indicadoresGlobales)
 	chart.data = indicadoresGlobales;
 	chart.language.locale._decimalSeparator= ",";
 	chart.language.locale._thousandSeparator= ".";
+
+	chart.leftAxesContainer.layout = "vertical";
 	
 	var categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
 	categoryAxis.dataFields.category = "anyo";
-	categoryAxis.renderer.opposite = true;
-	categoryAxis.title.text = anyoCadena2;
+	//categoryAxis.renderer.opposite = true;
+	//categoryAxis.title.text = anyoCadena2;
 	
 	var valueAxis1 = chart.yAxes.push(new am4charts.ValueAxis());
-	valueAxis1.title.text = noSubvencionCadena2;
+	//valueAxis1.title.text = noSubvencionCadena2;
 	var series1 = chart.series.push(new am4charts.LineSeries());
 	series1.dataFields.valueY = "subvencion";
 	series1.dataFields.categoryX = "anyo";
 	series1.name = noSubvencionCadena2;
 	series1.yAxis = valueAxis1;
 	series1.strokeWidth = 3;
-	series1.bullets.push(new am4charts.CircleBullet());
+	//series1.bullets.push(new am4charts.CircleBullet());
+	var bullet = series1.bullets.push (new am4plugins_bullets.ShapeBullet());
+	bullet.shape = "square";
 	series1.tooltipText = "{name} en {categoryX}: {valueY}";
 	series1.legendSettings.valueText = "{valueY}";
+	valueAxis1.marginTop = 10;
+	valueAxis1.marginBottom = 40;
+	valueAxis1.align = "right";
 	
 	var valueAxis2 = chart.yAxes.push(new am4charts.ValueAxis());
 	var series2 = chart.series.push(new am4charts.LineSeries());
 	series2.dataFields.valueY = "beneficiario";
 	series2.dataFields.categoryX = "anyo";
 	series2.name = noBeneficiarioCadena2;
-	valueAxis2.title.text = noBeneficiarioCadena2;
+	//valueAxis2.title.text = noBeneficiarioCadena2;
 	series2.yAxis = valueAxis2;
 	series2.strokeWidth = 3;
-	series2.bullets.push(new am4charts.CircleBullet());
+	//series2.bullets.push(new am4charts.CircleBullet());
+	var bullet = series2.bullets.push(new am4plugins_bullets.ShapeBullet());
+	bullet.shape = "up";
 	series2.tooltipText = "{name} en {categoryX}: {valueY}";
 	series2.legendSettings.valueText = "{valueY}";
-	
+	valueAxis2.marginTop = 10;
+	valueAxis2.marginBottom = 40;
+	valueAxis2.align = "right";
+
 	var valueAxis3 = chart.yAxes.push(new am4charts.ValueAxis());
 	var series3 = chart.series.push(new am4charts.LineSeries());
 	series3.dataFields.valueY = "importe";
 	series3.dataFields.categoryX = "anyo";	
 	series3.name = importeCadena2;
-	valueAxis3.title.text = importeCadena2;
+	//valueAxis3.title.text = importeCadena2;
 	series3.yAxis = valueAxis3;
 	series3.strokeWidth = 3;
-	series3.bullets.push(new am4charts.CircleBullet());
+	//series3.bullets.push(new am4charts.CircleBullet());
+	var bullet = series3.bullets.push(new am4plugins_bullets.ShapeBullet());
+	bullet.shape = "circle";
 	series3.tooltipText = "{name} en {categoryX}: {valueY}";
-	series3.legendSettings.valueText = "{valueY}";
-	
+	series3.legendSettings.valueText = "{valueY}";	
 	chart.cursor = new am4charts.XYCursor();
-	chart.cursor.behavior = "zoomY";
-	
+	chart.cursor.behavior = "zoomY";	
+	chart.focusFilter.stroke = am4core.color("#0f0");
+	chart.focusFilter.strokeWidth = 4;	
 	chart.legend = new am4charts.Legend();
-	
+	valueAxis3.marginTop = 10;
+	valueAxis3.marginBottom = 40;
+	valueAxis3.align = "right";
 
 }
 

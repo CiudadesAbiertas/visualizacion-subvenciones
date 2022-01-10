@@ -242,6 +242,9 @@ function pintaGrafico(importeAreas)
 	chart.legend.itemContainers.template.paddingBottom = 5;
 	// chart.legend.labels.template.text = "{nameCompl}";
 	
+	chart.focusFilter.stroke = am4core.color("#0f0");
+	chart.focusFilter.strokeWidth = 4;
+	
 	// Evento para abrir la búsqueda relacionada
 	series.slices.template.events.on("hit", function(ev) 
 	{

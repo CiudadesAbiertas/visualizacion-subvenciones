@@ -241,6 +241,9 @@ function pintaTarta(areasGasto)
 	chart.legend.itemContainers.template.paddingTop = 5;
 	chart.legend.itemContainers.template.paddingBottom = 5;
 	
+	chart.focusFilter.stroke = am4core.color("#0f0");
+	chart.focusFilter.strokeWidth = 4;
+	
 	// Evento para abrir la búsqueda relacionada
 	series.slices.template.events.on("hit", function(ev) 
 	{

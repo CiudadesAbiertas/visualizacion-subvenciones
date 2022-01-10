@@ -2114,7 +2114,7 @@ function pintaGraficoSuperiorIzquierda(importeArea)
 	level1_bullet.locationY = 0.5;
 	level1_bullet.locationX = 0.5;
 	level1_bullet.label.text = "{name}\n{value}";
-	level1_bullet.label.fill = am4core.color("#fff");
+	level1_bullet.label.fill = am4core.color("#222");
 	level1_bullet.label.truncate = false;
 	level1_bullet.label.wrap  = true;
 }

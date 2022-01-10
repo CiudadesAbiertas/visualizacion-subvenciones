@@ -189,6 +189,9 @@ function pintaImporteClasificacionEconomicaGasto(importeClasificacionEconomicaGa
 	chart.dataFields.value = "importe";
 	chart.dataFields.name = "clasficacion";
 	
+	chart.focusFilter.stroke = am4core.color("#0f0");
+	chart.focusFilter.strokeWidth = 4;
+	
 	var level1 = chart.seriesTemplates.create("0");
 	var level1_column = level1.columns.template;
 	level1_column.column.cornerRadius(10, 10, 10, 10);

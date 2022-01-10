@@ -41,7 +41,6 @@ See the Licence for the specific language governing permissions and limitations 
 */
 
 
-
 @media (max-width: 700px) {
 	#panelGraficoImporteArea {
 		height: 300px;
@@ -70,4 +69,8 @@ See the Licence for the specific language governing permissions and limitations 
 
 ol, ul {
     margin-left: 10px;
+}
+
+.txtpeq {
+    font-size: 9px;
 }
