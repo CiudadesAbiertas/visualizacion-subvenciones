@@ -72,6 +72,8 @@ var logDebugGestionado = false;
 var logDebugImporteClasificacionEconomicaGasto = false;
 var logDebugImporteClasificacionPrograma = false;
 
+
+
 /** Dominio del conjuto de datos de subvenciones **/
 /* Si la API tiene multiidioma con esta variable de podrá controlar */
 var idiomaAPI = "";
@@ -116,6 +118,12 @@ var queryIndicadorConcesiones = convocatoriaURL + "?"+paramSortAPI+"=id";
 var queryIndicadorBeneficiarios = concesionAgrupadaURL + "?"+paramFieldsAPI+"=beneficiario as numero&"+paramGroupAPI+"=beneficiario";
 // beneficiarios agrupada por tipoInstrumento y sumando los importes
 var queryIndicadorImporteTotal = concesionAgrupadaURL + "?"+paramFieldsAPI+"=sum(importeConcedido) as suma&"+paramGroupAPI+"=convocatoria&"+paramPageSizeAPI+"=500";
+// // subvenciones agrupada por año y contanto las subvenciones
+// var queryIndicadorSubvencionesGlobal = convocatoriaAgrupadaURL + "?"+paramFieldsAPI+"=count(distinct id) as numero,YEAR(fechaAcuerdo) as anyo&"+paramGroupAPI+"=YEAR(fechaAcuerdo)&"+paramSortAPI+"=YEAR(fechaAcuerdo)";
+// // beneficiarios agrupada por año y contanto las beneficiarios
+// var queryIndicadorBeneficiariosGlobal = concesionAgrupadaURL + "?"+paramFieldsAPI+"=count(distinct beneficiario) as numero,YEAR(fechaConcesion) as anyo&"+paramGroupAPI+"=YEAR(fechaConcesion)&"+paramSortAPI+"=YEAR(fechaAcuerdo)";
+// // beneficiarios agrupada por año y sumando los importes
+// var queryIndicadorImporteTotalGlobal = concesionAgrupadaURL + "?"+paramFieldsAPI+"=sum(importeConcedido) as suma,YEAR(fechaConcesion) as anyo&"+paramGroupAPI+"=YEAR(fechaConcesion)&"+paramSortAPI+"=YEAR(fechaAcuerdo)";
 
 // subvenciones agrupada por año y contanto las subvenciones
 var queryIndicadorSubvencionesGlobal = convocatoriaAgrupadaURL + "?"+paramFieldsAPI+"=count(distinct id) as numero,YEAR(fechaAcuerdo) as anyo&"+paramGroupAPI+"=YEAR(fechaAcuerdo)";
@@ -132,6 +140,7 @@ var queryGraficoDepGastoCSV = convocatoriaAgrupadaURLCSV + "?"+paramFieldsAPI+"=
 var queryGraficoAreas = convocatoriaAgrupadaURL + "?"+paramFieldsAPI+"=areaId, count(title)&"+paramGroupAPI+"=areaId&"+paramSortAPI+"=-count(title)";
 // top 10 áreas y cuenta
 var queryGraficoAreasTop10 = convocatoriaAgrupadaURL + "?"+paramFieldsAPI+"=areaId as area, count(title) as numero&"+paramGroupAPI+"=areaId&"+paramSortAPI+"=-count(title)&"+paramPageSizeAPI+"="+registrosTablaGráficos;
+
 
 //servicio y suma importe
 var queryServicioImporte = convocatoriaAgrupadaURL + ".json?"+paramFieldsAPI+"=servicioId as servicio, sum(importeTotalConcedido) as suma&"+paramGroupAPI+"=servicioId&"+paramSortAPI+"=-sum(importeTotalConcedido)";
@@ -237,6 +246,9 @@ var queryGraficoConvenioCSV = convocatoriaAgrupadaURLCSV + "?"+paramFieldsAPI+"=
 
 var queryGraficoGestOrg = convocatoriaAgrupadaURL + "?"+paramFieldsAPI+"=100&"+paramFieldsAPI+"=organizationId as organizacion,gestionadoPorOrganization as gestionado,sum(importeTotalConcedido) as suma&sort=-sum(importeTotalConcedido)&group=gestionadoPorOrganization,organizationId";
 var queryGraficoGestDis = convocatoriaAgrupadaURL + "?"+paramFieldsAPI+"=100&"+paramFieldsAPI+"=distritoTitle as distrito,gestionadoPorDistrito as gestionado,sum(importeTotalConcedido) as suma&sort=-sum(importeTotalConcedido)&group=gestionadoPorDistrito,distritoTitle"
+
+
+
 
 /* Etiquetas para el SKOS tiene temática*/
 var etiquetasTematica = new Map([
