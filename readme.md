@@ -7,7 +7,7 @@ Para desplegar la visualización hay que copiar los ficheros en un servidor web,
 ------------
 Configuración
 ------------
-La configuración de la visualización se encuentra en::
+La configuración de la visualización se encuentra en:
     dist/js/constantes.js
 	dist/js/general.js
 
@@ -44,7 +44,7 @@ La localización de los ficheros con los literales de cada idioma están en::
     dist\i18n\gl.json
     dist\i18n\en.json
     
-Y los literales de las tablas están en::
+Y los literales de las tablas están en:
     vendor\datatables\i18n\es.json
     vendor\datatables\i18n\gl.json
     vendor\datatables\i18n\en.json
@@ -55,6 +55,7 @@ Navegadores compatibles
 Esta visualización ha sido probada en los navedores:
 * Firefox 76
 * Google Chrome 81
+* Microsoft Edge 103.0
 * Internet explorer 11
 
 ------------
